@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 class RetrofitInstance {
+
     companion object {
         private val retrofit by lazy<Retrofit> {
             val logging = HttpLoggingInterceptor()
@@ -14,8 +15,8 @@ class RetrofitInstance {
                 .addInterceptor(logging)
                 .build()
             Retrofit.Builder()
-                .baseUrl("http://export.arxiv.org/api/")
-                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .baseUrl("http://export.arxiv.org/api/") //TODO use cosntants
+                .addConverterFactory(SimpleXmlConverterFactory.create()) //TODO check
                 .client(client)
                 .build()
         }

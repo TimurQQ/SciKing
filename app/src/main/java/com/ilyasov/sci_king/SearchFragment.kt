@@ -19,6 +19,6 @@ class SearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSciArticlesByKeyWord("electron")
+        viewModel.getSciArticlesByKeyWord("electron") //TODO use constants
     }
 }

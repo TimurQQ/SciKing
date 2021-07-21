@@ -11,6 +11,8 @@ class SciArticlesViewModel : ViewModel() {
     fun getSciArticlesByKeyWord(keyWord: String) = viewModelScope.launch(Dispatchers.Main) {
         val response = RetrofitInstance.api.getSciArticlesByKeyWord("all:$keyWord")
         val body = response.body()
+
+        //TODO use const
         Log.d("RESP", body.toString())
         if (!response.isSuccessful) {
             return@launch

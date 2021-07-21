@@ -8,9 +8,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //TODO use navigation controller (navGraph)
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, SearchFragment()) // or replace
-                .addToBackStack(null) // по нажатию "назад" можно вернуться на предыдущий фрагмент.
+                .addToBackStack(null) // по нажатию "назад" можно вернуться на предыдущий фрагмент. //TODO not use russian comments
                 .commit()
     }
 }
