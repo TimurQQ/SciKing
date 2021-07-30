@@ -1,4 +1,4 @@
-package com.ilyasov.sciking
+package com.ilyasov.sci_king
 
 import org.junit.Test
 
