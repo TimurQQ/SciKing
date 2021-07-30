@@ -1,9 +1,10 @@
 package com.ilyasov.sci_king.model
 
-import org.simpleframework.xml.Element
+import com.tickaroo.tikxml.annotation.PropertyElement
+import com.tickaroo.tikxml.annotation.Xml
 
-@Element(name = "author")
+@Xml(name = "author")
 data class Author(
-    @Element val name : String,
-    @Element val affiliation : String
+    @PropertyElement val name : String,
+    @PropertyElement val affiliation : String?
 )

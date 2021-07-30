@@ -1,20 +1,21 @@
 package com.ilyasov.sci_king.model
 
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.PropertyElement
+import com.tickaroo.tikxml.annotation.Xml
+import java.util.*
 
-@Element(name = "entry")
+@Xml(name = "entry")
 data class SciArticle(
-    @Element(name = "id") val id : Int,
-    @Element(name = "updated") val timeUpdated : String,
-    @Element(name = "published") val timePublished : String,
-    @Element(name = "title") val title : String,
-    @Element(name = "summary") val summary : String,
-    @ElementList val authors : List<Author>,
-    @Element val doi : String,
-    @Element val citationsLink : String,
-    @Element val comment : String,
-    @Element val journalRef : String,
-    @Element val articleLink : String,
-    @Element val pdfLink : String
+    @PropertyElement(name = "id") val id : String,
+    @PropertyElement(name = "updated") val timeUpdated : String,
+    @PropertyElement(name = "published") val timePublished : String,
+    @PropertyElement(name = "title") val title : String,
+    @PropertyElement(name = "summary") val summary : String,
+    @Element(name = "author")val authors : List<Author>,
+    @PropertyElement(name = "arxiv:doi") val doi : String?,
+    @Element(name = "link") val links : List<Link>,
+    @PropertyElement(name = "arxiv:comment") val comment : String?,
+    @PropertyElement(name = "arxiv:journal_ref") val journalRef : String?,
+    @Element(name = "arxiv:primary_category") val primaryCategory : Category
 )

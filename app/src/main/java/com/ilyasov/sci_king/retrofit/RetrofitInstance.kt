@@ -1,22 +1,23 @@
 package com.ilyasov.sci_king.retrofit
 
+import com.ilyasov.sci_king.util.Constants.Companion.BASE_URL
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 class RetrofitInstance {
 
     companion object {
         private val retrofit by lazy<Retrofit> {
             val logging = HttpLoggingInterceptor()
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+            logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build()
             Retrofit.Builder()
-                .baseUrl("http://export.arxiv.org/api/") //TODO use cosntants
-                .addConverterFactory(SimpleXmlConverterFactory.create()) //TODO check
+                .baseUrl(BASE_URL)
+                .addConverterFactory(TikXmlConverterFactory.create()) //TODO check
                 .client(client)
                 .build()
         }

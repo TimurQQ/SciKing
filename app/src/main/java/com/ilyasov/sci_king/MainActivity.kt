@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         //TODO use navigation controller (navGraph)
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, SearchFragment()) // or replace
-                .addToBackStack(null) // по нажатию "назад" можно вернуться на предыдущий фрагмент. //TODO not use russian comments
+                .addToBackStack(null) // by clicking "back", you can return to the previous fragment.
                 .commit()
     }
 }

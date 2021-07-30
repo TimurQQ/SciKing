@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomEditTextView">
+        <attr name="editHint" format="string"/>
+        <attr name="getText" format="string"/>
+        <attr name="img" format="reference"/>
+        <attr name="error" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="al">
+        <attr name="backgroundColor" format="color"/>
+        <attr name="card_background" format="color"/>
+        <attr name="Text_Color" format="color"/>
+        <attr name="Button_Color" format="color"/>
+
+    </declare-styleable>
+</resources>
