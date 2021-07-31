@@ -1,4 +1,4 @@
-package com.ilyasov.sci_king
+package com.ilyasov.sci_king.presentation.view_models
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

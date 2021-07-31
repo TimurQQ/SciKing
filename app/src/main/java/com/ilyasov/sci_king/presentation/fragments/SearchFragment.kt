@@ -1,4 +1,4 @@
-package com.ilyasov.sci_king
+package com.ilyasov.sci_king.presentation.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.ilyasov.sci_king.R
+import com.ilyasov.sci_king.presentation.view_models.SciArticlesViewModel
 import com.ilyasov.sci_king.custom.CustomEditTextView
 import com.ilyasov.sci_king.presentation.adapters.SciArticleAdapter
 import com.ilyasov.sci_king.util.Constants.Companion.BASE_KEYWORD
@@ -40,6 +42,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             view.findViewById<AppCompatImageView>(R.id.search_by_title_img).setOnClickListener {
                 keyWord = customSearchView.text
                 viewModel.getSciArticlesByKeyWord(keyWord)
+                customSearchView.showError()
             }
         }
 
