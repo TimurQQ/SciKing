@@ -5,5 +5,5 @@ import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
 data class Category(
-    @Attribute(name = "term") val name : String
+    @Attribute(name = "term") val name: String
 )

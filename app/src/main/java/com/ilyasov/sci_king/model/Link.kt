@@ -6,5 +6,5 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml
 data class Link(
     @Attribute(name = "href")
-    val value : String
+    val value: String
 )

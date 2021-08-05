@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.sci_article_item.view.*
 class SciArticleAdapter : RecyclerView.Adapter<SciArticleAdapter.ArticleViewHolder>() {
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    var listOfItems : List<SciArticle> = emptyList()
+    var listOfItems: List<SciArticle> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ArticleViewHolder (
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ArticleViewHolder(
         LayoutInflater.from(
             parent.context
         ).inflate(R.layout.sci_article_item, parent, false)

@@ -7,7 +7,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 class RetrofitInstance {
-
     companion object {
         private val retrofit by lazy<Retrofit> {
             val logging = HttpLoggingInterceptor()
@@ -17,13 +16,10 @@ class RetrofitInstance {
                 .build()
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(TikXmlConverterFactory.create()) //TODO check
+                .addConverterFactory(TikXmlConverterFactory.create())
                 .client(client)
                 .build()
         }
-
-        val api: SciArticlesAPI by lazy {
-            retrofit.create(SciArticlesAPI::class.java)
-        }
+        val api: SciArticlesAPI by lazy { retrofit.create(SciArticlesAPI::class.java) }
     }
 }

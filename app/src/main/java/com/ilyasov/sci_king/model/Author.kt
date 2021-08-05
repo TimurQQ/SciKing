@@ -5,6 +5,6 @@ import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "author")
 data class Author(
-    @PropertyElement val name : String,
-    @PropertyElement val affiliation : String?
+    @PropertyElement val name: String,
+    @PropertyElement val affiliation: String?
 )

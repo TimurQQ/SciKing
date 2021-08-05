@@ -14,6 +14,17 @@
         android:fitsSystemWindows="true"
         tools:context=".presentation.fragments.NewsFragment">
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/log_out_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_logout"
+            app:layout_constraintBottom_toTopOf="@id/search_by_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/constraint" />
+
         <com.ilyasov.sci_king.custom.CustomEditTextView
             android:id="@+id/search_by_title"
             android:layout_width="match_parent"
@@ -37,7 +48,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_by_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/search_by_title" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -49,6 +60,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
