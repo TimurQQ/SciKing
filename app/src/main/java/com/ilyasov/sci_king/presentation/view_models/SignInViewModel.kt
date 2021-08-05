@@ -1,97 +1,47 @@
 package com.ilyasov.sci_king.presentation.view_models
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.util.Patterns
-import android.view.View
-import android.widget.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.util.Constants
-import com.ilyasov.sci_king.util.Constants.Companion.IS_REGISTERED
+import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
+import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
+import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_IN_ERROR
 
-class SignInViewModel(private val context: Context) : View.OnClickListener{
-    private val mAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
-    private val mSettings: SharedPreferences by lazy {
-        context.getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
-    }
-    private lateinit var editTextEmail: EditText
-    private lateinit var editTextPassword: EditText
-    private lateinit var progressBar: ProgressBar
-    private lateinit var textViewSignUp: TextView
-    private lateinit var buttonLogin: Button
+class SignInViewModel : ViewModel() {
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    val errorStateLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
+    val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val navigationStateLiveData: MutableLiveData</*action id*/ Int> = MutableLiveData()
 
-    fun onViewCreated(view: View) {
-        editTextEmail = view.findViewById(R.id.editTextEmail)
-        editTextPassword = view.findViewById(R.id.editTextPassword)
-        progressBar = view.findViewById(R.id.progressbar)
-        textViewSignUp = view.findViewById(R.id.textViewSignup)
-        buttonLogin = view.findViewById(R.id.buttonLogin)
-        textViewSignUp.setOnClickListener(this)
-        buttonLogin.setOnClickListener(this)
-    }
-
-    fun onStart() {
-        if (mAuth.currentUser != null) {
-            with (mSettings.edit()) {
-                putBoolean(IS_REGISTERED, true)
-                apply()
-            }
-            TODO("open SearchFragment")
-        }
-    }
-
-    private fun userLogin() {
-        val email = editTextEmail.text.toString().trim { it <= ' ' }
-        val password: String = editTextPassword.text.toString().trim { it <= ' ' }
+    fun userLogin(email: String, password: String) {
         if (email.isEmpty()) {
-            editTextEmail.error = "Email is required"
-            editTextEmail.requestFocus()
-            return
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.error = "Please enter a valid email"
-            editTextEmail.requestFocus()
-            return
-        }
-        if (password.isEmpty()) {
-            editTextPassword.error = "Password is required"
-            editTextPassword.requestFocus()
-            return
-        }
-        if (password.length < 6) {
-            editTextPassword.error = "Minimum length of password should be 6"
-            editTextPassword.requestFocus()
-            return
-        }
-        progressBar.visibility = View.VISIBLE
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                progressBar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    with (mSettings.edit()) {
-                        putBoolean(IS_REGISTERED, true)
-                        apply()
+            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, "Email is required"))
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, "Please enter a valid email"))
+        } else if (password.isEmpty()) {
+            errorStateLiveData.postValue(Pair(PASSWORD_CHECK_ERROR, "Password is required"))
+        } else if (password.length < 6) {
+            errorStateLiveData.postValue(
+                Pair(PASSWORD_CHECK_ERROR, "Minimum length of password should be 6")
+            )
+        } else {
+            loadingMutableLiveData.postValue(true)
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    loadingMutableLiveData.postValue(false)
+                    if (task.isSuccessful) {
+                        navigationStateLiveData.postValue(R.id.action_signInFragment_to_appActivity)
+                    } else {
+                        errorStateLiveData.postValue(
+                            Pair(
+                                SERVER_SIGN_IN_ERROR,
+                                task.exception!!.message ?: "Unexpected Sign In Error"
+                            )
+                        )
                     }
-                    TODO("open SearchFragment")
-                } else {
-                    Toast.makeText(
-                        context,
-                        task.exception!!.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
-            }
-    }
-
-    override fun onClick(view: View) {
-        when (view.id) {
-            R.id.textViewSignup -> {
-                TODO("open SignUpFragment")
-            }
-            R.id.buttonLogin -> userLogin()
         }
     }
 }

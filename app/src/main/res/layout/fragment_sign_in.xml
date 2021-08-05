@@ -87,7 +87,7 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/textViewSignup"
+            android:id="@+id/textViewSignUp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
@@ -115,13 +115,13 @@
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewSignup"
+            app:layout_constraintTop_toBottomOf="@id/textViewSignUp"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
             tools:ignore="HardcodedText" />
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"

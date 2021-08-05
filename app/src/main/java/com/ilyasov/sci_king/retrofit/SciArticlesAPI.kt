@@ -16,5 +16,5 @@ interface SciArticlesAPI {
         startPos: Int = 0,
         @Query("max_results")
         maxResults: Int = 10
-    ) : Response<SciArticlesResponse>
+    ): Response<SciArticlesResponse>
 }
