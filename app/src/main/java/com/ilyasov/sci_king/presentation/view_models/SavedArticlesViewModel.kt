@@ -1,5 +1,6 @@
 package com.ilyasov.sci_king.presentation.view_models
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.AndroidViewModel
@@ -14,6 +15,7 @@ class SavedArticlesViewModel(application: Application) : AndroidViewModel(applic
     val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
+    @SuppressLint("StaticFieldLeak")
     private inner class GetArticlesAsyncTask(dao: UserSciArticlesDAO) :
         AsyncTask<Void?, Void?, Void?>() {
         private val mAsyncTaskDao: UserSciArticlesDAO = dao

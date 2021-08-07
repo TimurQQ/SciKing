@@ -1,5 +1,6 @@
 package com.ilyasov.sci_king.presentation.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -24,7 +25,7 @@ import java.io.IOException
 class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
     private val viewModel by lazy { UserProfileViewModel() }
 
-    var uriProfileImage: Uri? = null
+    private var uriProfileImage: Uri? = null
 
     private val mAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -35,6 +36,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         viewModel.loadUserInformation()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadUserInformation()

@@ -17,7 +17,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m"
         android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".presentation.AppActivity" />
         <activity
             android:name=".presentation.RootActivity"
             android:label="@string/app_name">

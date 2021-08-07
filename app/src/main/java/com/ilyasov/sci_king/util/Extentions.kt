@@ -2,6 +2,7 @@ package com.ilyasov.sci_king.util
 
 import android.content.Intent
 import android.os.Handler
+import android.os.Looper
 import android.util.SparseArray
 import android.view.View
 import androidx.core.util.forEach
@@ -74,7 +75,7 @@ fun BottomNavigationView.setupWithNavController(
     var isOnFirstFragment = selectedItemTag == firstFragmentTag
 
     // When a navigation item is selected
-    setOnNavigationItemSelectedListener { item ->
+    setOnItemSelectedListener { item ->
         // Don't do anything if the state is state has already been saved.
         if (fragmentManager.isStateSaved) {
             false
@@ -176,14 +177,14 @@ private fun BottomNavigationView.setupItemReselected(
     graphIdToTagMap: SparseArray<String>,
     fragmentManager: FragmentManager
 ) {
-    setOnNavigationItemReselectedListener { item ->
+    setOnItemReselectedListener { item ->
         val newlySelectedItemTag = graphIdToTagMap[item.itemId]
         val selectedFragment = fragmentManager.findFragmentByTag(newlySelectedItemTag)
                 as NavHostFragment
         val navController = selectedFragment.navController
         // Pop the back stack to the start destination of the current navController graph
         navController.popBackStack(
-            navController.graph.getStartDestination(), false
+            navController.graph.startDestinationId, false
         )
     }
 }
@@ -194,7 +195,7 @@ private fun detachNavHostFragment(
 ) {
     // Fix for crash on folding-unfolding app
     // java.lang.IllegalStateException: FragmentManager is already executing transactions
-    Handler().post {
+    Handler(Looper.getMainLooper()).post {
         fragmentManager.beginTransaction()
             .detach(navHostFragment)
             .commitNow()
@@ -208,7 +209,7 @@ private fun attachNavHostFragment(
 ) {
     // Fix for crash on folding-unfolding app
     // java.lang.IllegalStateException: FragmentManager is already executing transactions
-    Handler().post {
+    Handler(Looper.getMainLooper()).post {
         fragmentManager.beginTransaction()
             .attach(navHostFragment)
             .apply {

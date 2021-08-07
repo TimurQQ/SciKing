@@ -6,9 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
-
 
 class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 

@@ -38,7 +38,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/space_0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.8"
+            android:contentDescription="App Logotype"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView"
@@ -72,7 +74,8 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -90,7 +93,8 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textViewLogin"

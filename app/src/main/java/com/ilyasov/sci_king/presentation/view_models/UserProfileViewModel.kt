@@ -10,7 +10,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 
 class UserProfileViewModel : ViewModel() {
-    var profileImageUrl: String? = null
+    private var profileImageUrl: String? = null
     private val mAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
