@@ -13,6 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_sci_king_logo_transparent"/>
+        android:src="@drawable/ic_sci_king_logo_transparent"
+        android:contentDescription="App Logotype"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

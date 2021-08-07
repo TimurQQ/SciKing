@@ -2,9 +2,7 @@ package com.ilyasov.sci_king.presentation.fragments
 
 import android.animation.Animator
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,7 +11,6 @@ import com.ilyasov.sci_king.R
 
 
 class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,11 +21,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                 override fun onAnimationCancel(animation: Animator) {}
                 override fun onAnimationRepeat(animation: Animator) {}
                 override fun onAnimationEnd(animation: Animator) {
-                    val actionId = if (mAuth.currentUser != null)
-                        R.id.action_splashScreenFragment_to_appActivity
-                    else
-                        R.id.action_splashScreenFragment_to_signInFragment
-                    findNavController().navigate(actionId)
+                    findNavController().navigate(R.id.action_SplashScreenFragment_to_MainFragment)
                 }
             })
     }

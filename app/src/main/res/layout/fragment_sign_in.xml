@@ -16,13 +16,13 @@
         android:background="#343F67"
         android:orientation="vertical"
         android:tag="fragment_sign_in"
-        tools:context="android_courses.newsapp.presentation.MainActivity">
+        tools:context="com.ilyasov.sci_king.presentation.RootActivity">
 
         <Space
             android:id="@+id/space_0"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/news_logo"
+            app:layout_constraintBottom_toTopOf="@+id/sci_king_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.2"
@@ -30,14 +30,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/news_logo"
+            android:id="@+id/sci_king_logo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_sci_king_logo_transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/space_0"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.8"
+            android:contentDescription="App Logotype"/>
 
         <Space
             android:id="@+id/space"
@@ -48,7 +50,7 @@
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/news_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/sci_king_logo" />
 
         <EditText
             android:id="@+id/editTextEmail"

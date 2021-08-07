@@ -8,7 +8,6 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.R.*
 
 class CustomEditTextView @JvmOverloads constructor(
     context: Context,
@@ -16,13 +15,13 @@ class CustomEditTextView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ConstraintLayout(context, attrs, defStyle) {
 
-    var hint: String = ""
+    private var hint: String = ""
         set(value) {
             field = value
             findViewById<EditText>(R.id.custom_edit_text_view).hint = value
         }
 
-    var errorAction = {}
+    private var errorAction = {}
 
     var text: String = ""
         get() = findViewById<EditText>(R.id.custom_edit_text_view).text.toString()
@@ -32,7 +31,7 @@ class CustomEditTextView @JvmOverloads constructor(
                 Editable.Factory.getInstance().newEditable(value)
         }
 
-    var searchImg: Int = 0
+    private var searchImg: Int = 0
         set(value) {
             field = value
             findViewById<AppCompatImageView>(R.id.search_by_title_img).setImageResource(value)
@@ -47,12 +46,12 @@ class CustomEditTextView @JvmOverloads constructor(
     }
 
     init {
-        View.inflate(context, layout.custom_edit_text_view, this)
+        View.inflate(context, R.layout.custom_edit_text_view, this)
 
-        with(context.theme.obtainStyledAttributes(attrs, styleable.CustomEditTextView, 0, 0)) {
-            hint = getString(styleable.CustomEditTextView_editHint) ?: ""
-            text = getString(styleable.CustomEditTextView_getText) ?: ""
-            searchImg = getResourceId(styleable.CustomEditTextView_img, drawable.ic_search_24)
+        with(context.theme.obtainStyledAttributes(attrs, R.styleable.CustomEditTextView, 0, 0)) {
+            hint = getString(R.styleable.CustomEditTextView_editHint) ?: ""
+            text = getString(R.styleable.CustomEditTextView_getText) ?: ""
+            searchImg = getResourceId(R.styleable.CustomEditTextView_img, R.drawable.ic_search_24)
         }
     }
 }

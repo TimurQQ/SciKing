@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.presentation.view_models.SignUpViewModel
@@ -17,9 +20,11 @@ import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     private val viewModel: SignUpViewModel by lazy { SignUpViewModel() }
+    private lateinit var navController : NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
 
         val signUpOnClickListener = View.OnClickListener { clickableView ->
             when (clickableView.id) {
@@ -28,7 +33,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     val password: String = editTextPassword.text.toString().trim { it <= ' ' }
                     viewModel.registerUser(email, password)
                 }
-                R.id.textViewLogin -> findNavController().popBackStack()
+                R.id.textViewLogin -> navController.popBackStack()
             }
         }
         buttonSignUp.setOnClickListener(signUpOnClickListener)
@@ -51,8 +56,22 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         viewModel.loadingMutableLiveData.observe(viewLifecycleOwner, { visibility ->
             progressBar.isVisible(visibility)
         })
-        viewModel.navigationStateLiveData.observe(viewLifecycleOwner, { action ->
-            findNavController().navigate(action)
+        viewModel.navigationStateLiveData.observe(viewLifecycleOwner, { navHostFragmentId ->
+            Navigation.findNavController(
+                requireActivity(),
+                navHostFragmentId
+            ).popBackStack(R.id.auth_nav_graph, true)
         })
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.activity_root__fragment__nav_host
+                    ).popBackStack()
+                }
+            })
     }
 }
