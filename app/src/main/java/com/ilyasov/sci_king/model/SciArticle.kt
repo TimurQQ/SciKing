@@ -1,12 +1,15 @@
 package com.ilyasov.sci_king.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
+@Entity
 @Xml(name = "entry")
 data class SciArticle(
-    @PropertyElement(name = "id") val id: String,
+    @PrimaryKey @PropertyElement(name = "id") val id: String,
     @PropertyElement(name = "updated") val timeUpdated: String,
     @PropertyElement(name = "published") val timePublished: String,
     @PropertyElement(name = "title") val title: String,

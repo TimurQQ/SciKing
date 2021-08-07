@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.presentation.view_models.SignInViewModel
@@ -24,7 +26,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         val signInOnClickListener = View.OnClickListener { clickableView ->
             when (clickableView.id) {
                 R.id.textViewSignUp ->
-                    findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+                    findNavController().navigate(R.id.action_SignInFragment_to_SignUpFragment)
                 R.id.buttonLogin -> {
                     val email = editTextEmail.text.toString().trim { it <= ' ' }
                     val password: String = editTextPassword.text.toString().trim { it <= ' ' }
@@ -52,8 +54,23 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         viewModel.loadingMutableLiveData.observe(viewLifecycleOwner, { visibility ->
             progressBar.isVisible(visibility)
         })
-        viewModel.navigationStateLiveData.observe(viewLifecycleOwner, { action ->
-            findNavController().navigate(action)
+
+        viewModel.navigationStateLiveData.observe(viewLifecycleOwner, { navHostFragmentId ->
+            Navigation.findNavController(
+                requireActivity(),
+                navHostFragmentId
+            ).popBackStack(R.id.auth_nav_graph, true)
         })
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.activity_root__fragment__nav_host
+                    ).popBackStack()
+                }
+            })
     }
 }

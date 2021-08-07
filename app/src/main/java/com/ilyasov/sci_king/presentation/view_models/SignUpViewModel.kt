@@ -14,7 +14,7 @@ class SignUpViewModel : ViewModel() {
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     val errorStateLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val navigationStateLiveData: MutableLiveData</*action id*/ Int> = MutableLiveData()
+    val navigationStateLiveData: MutableLiveData</*navHostFragment id*/ Int> = MutableLiveData()
 
     fun registerUser(email: String, password: String) {
         if (email.isEmpty()) {
@@ -33,7 +33,7 @@ class SignUpViewModel : ViewModel() {
                 .addOnCompleteListener { task ->
                     loadingMutableLiveData.postValue(false)
                     if (task.isSuccessful) {
-                        navigationStateLiveData.postValue(R.id.action_signUpFragment_to_appActivity)
+                        navigationStateLiveData.postValue(R.id.activity_root__fragment__nav_host)
                     } else {
                         if (task.exception is FirebaseAuthUserCollisionException) {
                             errorStateLiveData.postValue(

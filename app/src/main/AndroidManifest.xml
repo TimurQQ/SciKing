@@ -15,10 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SciKing"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
-        <activity android:name=".presentation.AppActivity"></activity>
+        tools:targetApi="m"
+        android:fullBackupContent="@xml/backup_descriptor">
+        <activity android:name=".presentation.AppActivity" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.RootActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

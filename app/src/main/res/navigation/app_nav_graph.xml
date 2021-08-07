@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav_graph"
+    app:startDestination="@id/SplashScreenFragment">
+
+    <fragment
+        android:id="@+id/SplashScreenFragment"
+        android:name="com.ilyasov.sci_king.presentation.fragments.SplashScreenFragment"
+        tools:layout="@layout/fragment_splash_screen">
+
+        <action
+            android:id="@+id/action_SplashScreenFragment_to_MainFragment"
+            app:destination="@id/MainFragment"
+            app:popUpTo="@id/SplashScreenFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="com.ilyasov.sci_king.presentation.MainFragment"
+        tools:layout="@layout/fragment_main" >
+
+        <action
+            android:id="@+id/action__MainFragment__to__AuthFlow"
+            app:destination="@id/auth_nav_graph" />
+    </fragment>
+
+    <include app:graph="@navigation/auth_nav_graph" />
+
+</navigation>

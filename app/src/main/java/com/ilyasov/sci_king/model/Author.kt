@@ -1,10 +1,11 @@
 package com.ilyasov.sci_king.model
 
+import com.google.gson.annotations.SerializedName
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "author")
 data class Author(
-    @PropertyElement val name: String,
-    @PropertyElement val affiliation: String?
+    @SerializedName("name") @PropertyElement val name: String,
+    @SerializedName("affiliation") @PropertyElement val affiliation: String?
 )
