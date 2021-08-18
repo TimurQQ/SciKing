@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/windowBackground"
     android:orientation="vertical"
     tools:context="com.ilyasov.sci_king.presentation.RootActivity">
 
@@ -12,6 +13,7 @@
         android:text="Tap on camera to choose profile picture"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="?attr/textColorPrimary"
         tools:ignore="HardcodedText" />
 
     <RelativeLayout

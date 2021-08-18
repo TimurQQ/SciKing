@@ -60,16 +60,5 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 navHostFragmentId
             ).popBackStack(R.id.auth_nav_graph, true)
         })
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Navigation.findNavController(
-                        requireActivity(),
-                        R.id.activity_root__fragment__nav_host
-                    ).popBackStack()
-                }
-            })
     }
 }

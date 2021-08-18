@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
 }
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
@@ -33,9 +34,26 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    packagingOptions {
+        exclude 'META-INF/**'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE'
+        exclude('**/akka-remote_2.10-*.jar')
+        exclude 'reference.conf'
+    }
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.allenai/science-parse
+    implementation ('org.allenai:science-parse_2.11:2.0.3') {
+        exclude group: 'org.slf4j', module: 'jcl-over-slf4j'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.slf4j', module: 'slf4j-parent'
+    }
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
@@ -105,4 +123,19 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:2.3.0"
     kapt  "androidx.room:room-compiler:2.3.0"
+
+    // https://mvnrepository.com/artifact/org.parboiled/parboiled-core
+    implementation 'org.parboiled:parboiled-core:1.1.7'
+    // https://mvnrepository.com/artifact/org.parboiled/parboiled-java
+    implementation 'org.parboiled:parboiled-java:1.1.7'
+    // PRDownloader
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
+    // PDF Viewer
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+    // Lottie
+    def lottieVersion = "3.4.4"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    // Dagger
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 }

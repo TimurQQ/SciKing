@@ -11,6 +11,9 @@ interface UserSciArticlesDAO {
     @Delete
     fun removeSciArticle(article: SciArticle)
 
+    @Query("SELECT EXISTS (SELECT 1 FROM SciArticle WHERE id = :id)")
+    fun exists(id: String): Boolean
+
     @get:Query("select * from SciArticle")
     val userSavedArticles: List<SciArticle>
 }

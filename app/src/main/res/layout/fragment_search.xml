@@ -10,26 +10,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
         android:layout_width="match_parent"
+        android:background="?attr/windowBackground"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".presentation.fragments.NewsFragment">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/log_out_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="false"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_logout"
-            app:layout_constraintBottom_toTopOf="@id/search_by_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/constraint" />
 
         <com.ilyasov.sci_king.custom.CustomEditTextView
             android:id="@+id/search_by_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:background="@color/white"
             app:editHint="search by keyword"
             app:img="@drawable/ic_search_24"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarStyle="outsideOverlay"
+    android:background="?attr/windowBackground"
     android:fillViewport="true"
+    android:focusableInTouchMode="true"
     android:isScrollContainer="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbarStyle="outsideOverlay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#343F67"
+        android:background="?attr/windowBackground"
         android:orientation="vertical"
         android:tag="fragment_sign_in"
         tools:context="com.ilyasov.sci_king.presentation.RootActivity">
@@ -33,13 +35,13 @@
             android:id="@+id/sci_king_logo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="App Logotype"
             android:src="@drawable/ic_sci_king_logo_transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/space_0"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
-            android:contentDescription="App Logotype"
             tools:ignore="HardcodedText" />
 
         <Space
@@ -58,38 +60,37 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:background="@drawable/rounded_edit_text"
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:hint="Login (only email)"
+            android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:background="@drawable/rounded_edit_text"
             android:textColorHint="#AEABAB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/space"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
-            tools:ignore="HardcodedText"
-            android:importantForAutofill="no" />
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
+            android:background="@drawable/rounded_edit_text"
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:hint="Password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:background="@drawable/rounded_edit_text"
-            android:textColorHint="#AEABAB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.8"
-            tools:ignore="HardcodedText"
-            android:importantForAutofill="no" />
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textViewSignUp"
@@ -114,8 +115,8 @@
             android:layout_gravity="center"
             android:layout_margin="7dp"
             android:layout_marginEnd="92dp"
-            android:text="Login"
             android:background="@drawable/rounded_edit_text"
+            android:text="Login"
             android:textAllCaps="false"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
@@ -135,4 +136,4 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
