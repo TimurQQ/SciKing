@@ -38,7 +38,7 @@ class UserProfileViewModel : ViewModel() {
             } else {
                 emailVerificationLiveData.postValue(false)
             }
-        }
+        } //TODO add check error when user == null
     }
 
     fun saveUserInformation(displayName: String) {

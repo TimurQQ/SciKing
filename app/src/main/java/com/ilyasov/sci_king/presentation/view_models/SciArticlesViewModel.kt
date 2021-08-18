@@ -38,12 +38,39 @@ class SciArticlesViewModel(application: Application) : AndroidViewModel(applicat
                 return null
             }
         }
+
+        private class IsArticleSavedAsyncTask(dao: UserSciArticlesDAO, _listener: OnTaskCompleted) :
+            AsyncTask<SciArticle, Void?, Boolean>() {
+            private val listener: OnTaskCompleted = _listener
+            private val mAsyncTaskDao: UserSciArticlesDAO = dao
+
+            override fun onPostExecute(result: Boolean) {
+                super.onPostExecute(result)
+                listener.onTaskCompleted(result)
+            }
+
+            override fun doInBackground(vararg params: SciArticle): Boolean {
+                return mAsyncTaskDao.exists(params[0].id)
+            }
+        }
     }
 
-    fun insert(article: SciArticle) {
+    fun isArticleSaved(article: SciArticle, onCompleteCallback: (Boolean) -> Unit) {
+        IsArticleSavedAsyncTask(sciArticlesDao, object : OnTaskCompleted {
+            override fun onTaskCompleted() {}
+            override fun onTaskCompleted(result: Boolean) {
+                Log.d("TASK", "Completed")
+                onCompleteCallback.invoke(result)
+            }
+        }).execute(article)
+    }
+
+    fun insert(article: SciArticle, onCompleteCallback: () -> Unit) {
         InsertAsyncTask(sciArticlesDao, object : OnTaskCompleted {
+            override fun onTaskCompleted(result: Boolean) {}
             override fun onTaskCompleted() {
                 Log.d("TASK", "Completed")
+                onCompleteCallback.invoke()
             }
         }).execute(article)
     }

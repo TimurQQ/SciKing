@@ -1,8 +1,6 @@
 package com.ilyasov.sci_king.util
 
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.util.SparseArray
 import android.view.View
 import androidx.core.util.forEach
@@ -12,11 +10,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.downloader.Progress
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ilyasov.sci_king.R
 
 fun View.isVisible(visibility: Boolean) =
     if (visibility) this.visibility = View.VISIBLE else this.visibility = View.GONE
+
+fun View.makeVisible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.makeInvisible() {
+    this.visibility = View.GONE
+}
+
+fun Progress.calculateProgress() =
+    ((this.currentBytes * 100) / this.totalBytes).toInt()
+
+fun Progress.calculateProgressString(): String {
+    val currentByte = (this.currentBytes / 1_000_000).toInt()
+    val totalByte = (this.totalBytes / 1_000_000).toInt()
+    return "$currentByte".plus(" mb / $totalByte mb")
+}
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].
@@ -61,7 +77,7 @@ fun BottomNavigationView.setupWithNavController(
 
         // Attach or detach nav host fragment depending on whether it's the selected item.
         if (this.selectedItemId == graphId) {
-            // Update liveData with the selected graph
+            // Update livedata with the selected graph
             selectedNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
         } else {
@@ -105,8 +121,8 @@ fun BottomNavigationView.setupWithNavController(
                         .setPrimaryNavigationFragment(selectedFragment)
                         .apply {
                             // Detach all other Fragments
-                            graphIdToTagMap.forEach { _, fragmentTagIterator ->
-                                if (fragmentTagIterator != newlySelectedItemTag) {
+                            graphIdToTagMap.forEach { _, fragmentTagIter ->
+                                if (fragmentTagIter != newlySelectedItemTag) {
                                     detach(fragmentManager.findFragmentByTag(firstFragmentTag)!!)
                                 }
                             }
@@ -193,13 +209,9 @@ private fun detachNavHostFragment(
     fragmentManager: FragmentManager,
     navHostFragment: NavHostFragment
 ) {
-    // Fix for crash on folding-unfolding app
-    // java.lang.IllegalStateException: FragmentManager is already executing transactions
-    Handler(Looper.getMainLooper()).post {
-        fragmentManager.beginTransaction()
-            .detach(navHostFragment)
-            .commitNow()
-    }
+    fragmentManager.beginTransaction()
+        .detach(navHostFragment)
+        .commitNow()
 }
 
 private fun attachNavHostFragment(
@@ -207,18 +219,14 @@ private fun attachNavHostFragment(
     navHostFragment: NavHostFragment,
     isPrimaryNavFragment: Boolean
 ) {
-    // Fix for crash on folding-unfolding app
-    // java.lang.IllegalStateException: FragmentManager is already executing transactions
-    Handler(Looper.getMainLooper()).post {
-        fragmentManager.beginTransaction()
-            .attach(navHostFragment)
-            .apply {
-                if (isPrimaryNavFragment) {
-                    setPrimaryNavigationFragment(navHostFragment)
-                }
+    fragmentManager.beginTransaction()
+        .attach(navHostFragment)
+        .apply {
+            if (isPrimaryNavFragment) {
+                setPrimaryNavigationFragment(navHostFragment)
             }
-            .commitNow()
-    }
+        }
+        .commitNow()
 }
 
 private fun obtainNavHostFragment(

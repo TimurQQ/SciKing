@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_CardView"
+    android:background="?attr/windowBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
@@ -32,13 +33,12 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/constraint_layout"
             android:paddingStart="66dp"
-            android:paddingEnd="66dp"
             android:paddingTop="5dp"
-            android:textColor="@android:color/black"
+            android:paddingEnd="66dp"
+            android:textColor="?attr/textColorPrimary"
             android:textSize="15sp"
-            />
+            app:layout_constraintTop_toTopOf="@id/constraint_layout" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -48,14 +48,28 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="15"
-            android:paddingBottom="5dp"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"
+            android:paddingBottom="5dp"
+            android:textColor="?attr/textColorPrimary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imageCloudView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="ViewImage"
+            android:src="@drawable/ic_cloud_download"
+            app:layout_constraintBottom_toBottomOf="@id/tv_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageView"
@@ -64,7 +78,7 @@
             android:layout_marginEnd="20dp"
             android:background="@android:color/transparent"
             android:contentDescription="ViewImage"
-            android:src="@drawable/ic_cloud_download"
+            android:src="@drawable/ic_download"
             app:layout_constraintBottom_toBottomOf="@id/tv_description"
             app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintTop_toTopOf="@id/tv_title"

@@ -8,10 +8,9 @@
     </declare-styleable>
 
     <declare-styleable name="al">
-        <attr name="backgroundColor" format="color"/>
-        <attr name="card_background" format="color"/>
-        <attr name="Text_Color" format="color"/>
-        <attr name="Button_Color" format="color"/>
-
+        <attr name="windowBackground" format="color"/>
+        <attr name="textColorPrimary" format="color"/>
+        <attr name="lottyColor" format="color"/>
+        <attr name="bottomColor" format="color"/>
     </declare-styleable>
 </resources>

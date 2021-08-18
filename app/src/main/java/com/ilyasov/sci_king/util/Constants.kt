@@ -5,12 +5,18 @@ class Constants {
         const val BASE_URL = "http://export.arxiv.org/api/"
         const val BASE_KEYWORD = "electron"
         const val LOG_RESPONSE = "RESP"
-        //const val APP_PREFERENCES = "settings"
+        const val APP_PREFERENCES = "settings"
+        const val MAX_PROGRESS = 100
+        const val NOTIFICATION_ID = 1453
         //const val IS_REGISTERED = "__REG__"
         //const val DISPLAY_NAME_ERROR = "__DISPLAY_NAME_ERROR__"
+        const val PACKAGE_NAME = "com.ilyasov.sci_king"
         const val PASSWORD_CHECK_ERROR = "_PASSWORD_ERROR_"
         const val EMAIL_CHECK_ERROR = "_EMAIL_ERROR_"
         const val SERVER_SIGN_IN_ERROR = "_SIGN_IN_ERROR_"
         const val SERVER_SIGN_UP_ERROR = "_SIGN_UP_ERROR_"
+        const val CHANNEL_ID = "Channel ID"
+        const val CHANNEL_NAME = "Channel Name"
+        const val PENDING_CODE = 1071
     }
 }

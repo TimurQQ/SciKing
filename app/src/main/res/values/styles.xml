@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryDark">#7B1FA2</item>
+        <item name="colorAccent">#7C4DFF</item>
+        <item name="windowBackground">#FFFFFF</item>
+        <item name="textColorPrimary">#000000</item>
+        <item name="lottyColor">#FFFFFF</item>
+        <item name="bottomColor">#FFFFFF</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryDark">#7B1FA2</item>
+        <item name="colorAccent">#7C4DFF</item>
+        <item name="windowBackground">#7B1FA2</item>
+        <item name="textColorPrimary">#FFFFFF</item>
+        <item name="lottyColor">#FFFFFF</item>
+        <item name="bottomColor">#7B1FA2</item>
+    </style>
+</resources>
