@@ -12,7 +12,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.google.gson.GsonBuilder
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.model.SciArticle
+import com.ilyasov.sci_king.domain.entity.SciArticle
+import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import com.ilyasov.sci_king.util.isVisible
 import com.ilyasov.sci_king.util.makeInvisible
 import kotlinx.android.synthetic.main.sci_article_item.view.*
@@ -22,9 +24,7 @@ class SciArticleAdapter(
     private val customBoolean: Boolean
 ) :
     RecyclerView.Adapter<SciArticleAdapter.ArticleViewHolder>() {
-    private val mAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     val itemStateArray = SparseBooleanArray()
     val userSavedArticles: MutableLiveData<Pair<SciArticle, () -> Unit>> = MutableLiveData()
     val onClickDownloadLiveData: MutableLiveData<String> = MutableLiveData()
@@ -84,9 +84,9 @@ class SciArticleAdapter(
             val data = json.toByteArray()
             val uploadTask: UploadTask = textRef.putBytes(data)
             uploadTask.addOnFailureListener {
-                onClickDownloadLiveData.postValue("failure :(")
+                onClickDownloadLiveData.postValue(FAILURE_MSG)
             }.addOnSuccessListener {
-                onClickDownloadLiveData.postValue("success :)")
+                onClickDownloadLiveData.postValue(SUCCESS_MSG)
             }
         }
         holder.bind(position)

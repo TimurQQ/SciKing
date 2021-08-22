@@ -4,15 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.util.Constants
-import dagger.hilt.android.AndroidEntryPoint
+import com.ilyasov.sci_king.util.Constants.Companion.APP_PREFERENCES
+import com.ilyasov.sci_king.util.Constants.Companion.THEME_PREFS
 
-
-@AndroidEntryPoint
 class RootActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sp = getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
-        val theme = sp.getInt("THEME", R.style.AppTheme)
+        val sharedPrefs = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+        val theme = sharedPrefs.getInt(THEME_PREFS, R.style.AppTheme)
         setTheme(theme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)

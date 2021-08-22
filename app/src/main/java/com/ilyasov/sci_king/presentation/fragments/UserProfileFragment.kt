@@ -1,6 +1,5 @@
 package com.ilyasov.sci_king.presentation.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,33 +9,30 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.presentation.view_models.UserProfileViewModel
+import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
+import com.ilyasov.sci_king.presentation.viewmodels.UserProfileViewModel
+import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_NOT_VERIFIED_TEXT
+import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_VERIFIED_TEXT
 import com.ilyasov.sci_king.util.isVisible
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 import java.io.IOException
 
-class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
-    private val viewModel by lazy { UserProfileViewModel() }
-
+class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
+    private val viewModel: UserProfileViewModel by lazy { createViewModel {} }
     private var uriProfileImage: Uri? = null
-
-    private val mAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         viewModel.loadUserInformation()
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadUserInformation()
@@ -70,9 +66,9 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
         viewModel.emailVerificationLiveData.observe(viewLifecycleOwner, { isEmailVerified ->
             if (isEmailVerified) {
-                textViewVerified.text = "Email Verified"
+                textViewVerified.text = EMAIL_VERIFIED_TEXT
             } else {
-                textViewVerified.text = "Email Not Verified (Click to Verify)"
+                textViewVerified.text = EMAIL_NOT_VERIFIED_TEXT
                 textViewVerified.setOnClickListener {
                     mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener {
                         Toast.makeText(

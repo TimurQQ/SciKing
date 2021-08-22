@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //Size
+    <dimen name="size_40dp">40dp</dimen>
+
+    //Margin
+    <dimen name="margin_15dp">15dp</dimen>
+
+
+
+</resources>

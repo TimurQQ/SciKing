@@ -3,26 +3,22 @@ package com.ilyasov.sci_king.presentation.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.presentation.view_models.SignUpViewModel
+import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
+import com.ilyasov.sci_king.presentation.viewmodels.SignUpViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_UP_ERROR
 import com.ilyasov.sci_king.util.isVisible
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
-class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
-    private val viewModel: SignUpViewModel by lazy { SignUpViewModel() }
-    private lateinit var navController : NavController
+class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
+    private val viewModel: SignUpViewModel by lazy { createViewModel {} }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
 
         val signUpOnClickListener = View.OnClickListener { clickableView ->
             when (clickableView.id) {
@@ -31,7 +27,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                     val password: String = editTextPassword.text.toString().trim { it <= ' ' }
                     viewModel.registerUser(email, password)
                 }
-                R.id.textViewLogin -> navController.popBackStack()
+                R.id.textViewLogin -> findNavController().popBackStack()
             }
         }
         buttonSignUp.setOnClickListener(signUpOnClickListener)

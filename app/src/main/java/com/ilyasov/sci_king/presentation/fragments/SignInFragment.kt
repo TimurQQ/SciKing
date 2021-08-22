@@ -3,20 +3,19 @@ package com.ilyasov.sci_king.presentation.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.R
-import com.ilyasov.sci_king.presentation.view_models.SignInViewModel
+import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
+import com.ilyasov.sci_king.presentation.viewmodels.SignInViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_IN_ERROR
 import com.ilyasov.sci_king.util.isVisible
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
-class SignInFragment : Fragment(R.layout.fragment_sign_in) {
-    private val viewModel: SignInViewModel by lazy { SignInViewModel() }
+class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
+    private val viewModel: SignInViewModel by lazy { createViewModel {} }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

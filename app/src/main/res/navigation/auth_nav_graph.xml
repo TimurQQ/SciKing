@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/SignInFragment"
-        tools:layout="@layout/fragment_sign_in"
-        android:name="com.ilyasov.sci_king.presentation.fragments.SignInFragment">
+        android:name="com.ilyasov.sci_king.presentation.fragments.SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
 
         <action
             android:id="@+id/action_SignInFragment_to_SignUpFragment"
@@ -17,8 +17,7 @@
 
     <fragment
         android:id="@+id/SignUpFragment"
-        tools:layout="@layout/fragment_sign_up"
-        android:name="com.ilyasov.sci_king.presentation.fragments.SignUpFragment">
-    </fragment>
+        android:name="com.ilyasov.sci_king.presentation.fragments.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up" />
 
 </navigation>

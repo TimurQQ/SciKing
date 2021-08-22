@@ -37,13 +37,9 @@ class CustomEditTextView @JvmOverloads constructor(
             findViewById<AppCompatImageView>(R.id.search_by_title_img).setImageResource(value)
         }
 
-    fun setActionOnClick(v: () -> Unit) {
-        v.invoke()
-    }
+    fun setActionOnClick(v: () -> Unit) = v.invoke()
 
-    fun showError() {
-        errorAction.invoke()
-    }
+    fun showError() = errorAction.invoke()
 
     init {
         View.inflate(context, R.layout.custom_edit_text_view, this)

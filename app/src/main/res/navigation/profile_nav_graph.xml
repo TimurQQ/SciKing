@@ -16,11 +16,11 @@
 
         <action
             android:id="@+id/action_ProfileFragment_to_UserProfileFragment"
-            app:destination="@+id/user_profile_nav_graph"/>
+            app:destination="@+id/user_profile_nav_graph" />
 
     </fragment>
 
     <include app:graph="@navigation/auth_nav_graph" />
-    <include app:graph="@navigation/user_profile_nav_graph"/>
+    <include app:graph="@navigation/user_profile_nav_graph" />
 
 </navigation>

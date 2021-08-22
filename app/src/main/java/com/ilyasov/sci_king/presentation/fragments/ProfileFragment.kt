@@ -2,19 +2,16 @@ package com.ilyasov.sci_king.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
-import dagger.hilt.android.AndroidEntryPoint
+import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-@AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
-    private val mAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

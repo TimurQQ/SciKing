@@ -7,8 +7,7 @@
 
     <fragment
         android:id="@+id/SavedArticlesFragment"
-        tools:layout="@layout/fragment_saved_articles"
-        android:name="com.ilyasov.sci_king.presentation.fragments.SavedArticlesFragment">
-    </fragment>
+        android:name="com.ilyasov.sci_king.presentation.fragments.SavedArticlesFragment"
+        tools:layout="@layout/fragment_saved_articles" />
 
 </navigation>

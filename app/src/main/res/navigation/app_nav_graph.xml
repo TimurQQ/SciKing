@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/MainFragment"
         android:name="com.ilyasov.sci_king.presentation.MainFragment"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
 
         <action
             android:id="@+id/action__MainFragment__to__AuthFlow"
@@ -29,16 +29,16 @@
 
         <action
             android:id="@+id/action__MainFragment__to__ReadArticle_Flow"
-            app:destination="@+id/read_articles_nav_graph"/>
+            app:destination="@+id/read_articles_nav_graph" />
 
         <action
             android:id="@+id/action__MainFragment__to__ChengeTheme_Flow"
-            app:destination="@+id/change_theme_nav_graph"/>
+            app:destination="@+id/change_theme_nav_graph" />
 
     </fragment>
 
     <include app:graph="@navigation/auth_nav_graph" />
-    <include app:graph="@navigation/read_articles_nav_graph"/>
-    <include app:graph="@navigation/change_theme_nav_graph"/>
+    <include app:graph="@navigation/read_articles_nav_graph" />
+    <include app:graph="@navigation/change_theme_nav_graph" />
 
 </navigation>

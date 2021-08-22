@@ -1,8 +1,10 @@
 package com.ilyasov.sci_king.util
 
+import android.animation.Animator
 import android.content.Intent
 import android.util.SparseArray
 import android.view.View
+import android.widget.ImageView
 import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.fragment.app.FragmentManager
@@ -23,6 +25,18 @@ fun View.makeVisible() {
 
 fun View.makeInvisible() {
     this.visibility = View.GONE
+}
+
+fun ImageView.makeDisappear(duration: Long, onEndCallback: () -> Unit) {
+    animate().alpha(0f).setDuration(duration)
+        .setListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                onEndCallback.invoke()
+            }
+        })
 }
 
 fun Progress.calculateProgress() =
@@ -77,7 +91,7 @@ fun BottomNavigationView.setupWithNavController(
 
         // Attach or detach nav host fragment depending on whether it's the selected item.
         if (this.selectedItemId == graphId) {
-            // Update livedata with the selected graph
+            // Update live-data with the selected graph
             selectedNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
         } else {
@@ -121,8 +135,8 @@ fun BottomNavigationView.setupWithNavController(
                         .setPrimaryNavigationFragment(selectedFragment)
                         .apply {
                             // Detach all other Fragments
-                            graphIdToTagMap.forEach { _, fragmentTagIter ->
-                                if (fragmentTagIter != newlySelectedItemTag) {
+                            graphIdToTagMap.forEach { _, fragmentTagIterator ->
+                                if (fragmentTagIterator != newlySelectedItemTag) {
                                     detach(fragmentManager.findFragmentByTag(firstFragmentTag)!!)
                                 }
                             }

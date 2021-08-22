@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cv_CardView"
-    android:background="?attr/windowBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    android:background="?attr/windowBackground"
     android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -16,15 +16,14 @@
         android:scaleType="center"
         android:src="@mipmap/ic_launcher_round"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </com.google.android.material.imageview.ShapeableImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/iv_article_image"
-        app:layout_constraintBottom_toBottomOf="@id/cv_CardView">
+        app:layout_constraintBottom_toBottomOf="@id/cv_CardView"
+        app:layout_constraintTop_toBottomOf="@id/iv_article_image">
 
         <TextView
             android:id="@+id/tv_title"

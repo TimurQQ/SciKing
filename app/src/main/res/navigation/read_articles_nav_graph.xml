@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/ParseArticleFragment"
-        tools:layout="@layout/fragment_parse_article"
-        android:name="com.ilyasov.sci_king.presentation.fragments.ParseArticleFragment">
+        android:name="com.ilyasov.sci_king.presentation.fragments.ParseArticleFragment"
+        tools:layout="@layout/fragment_parse_article">
 
         <action
             android:id="@+id/action__finishReadBookFlow"

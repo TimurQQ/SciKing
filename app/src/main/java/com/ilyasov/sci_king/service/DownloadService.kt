@@ -10,24 +10,22 @@ import androidx.lifecycle.LifecycleService
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
-import com.eneskayiklik.comicreader.ui.main.read.ParseArticleViewModel
-import com.eneskayiklik.comicreader.ui.main.read.ParseArticleViewModel.Companion.file
-import com.ilyasov.sci_king.SciKingApplication
+import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel
+import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel.Companion.file
 import com.ilyasov.sci_king.util.Constants.Companion.MAX_PROGRESS
 import com.ilyasov.sci_king.util.Constants.Companion.NOTIFICATION_ID
 import com.ilyasov.sci_king.util.Constants.Companion.PACKAGE_NAME
+import com.ilyasov.sci_king.util.Constants.Companion.USER_SAVED_ARTICLES_PATH
 import com.ilyasov.sci_king.util.StaticVariables.downloadCount
 import com.ilyasov.sci_king.util.StaticVariables.downloadingItems
 import com.ilyasov.sci_king.util.calculateProgress
 import com.ilyasov.sci_king.util.calculateProgressString
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class DownloadService : LifecycleService() {
     @Inject
     lateinit var mManager: NotificationCompat.Builder
@@ -70,7 +68,7 @@ class DownloadService : LifecycleService() {
     }
 
     private fun downloadPdf(url: String?, name: String) {
-        val pdfPath = this.getExternalFilesDir("Comic Books")?.absolutePath
+        val pdfPath = this.getExternalFilesDir(USER_SAVED_ARTICLES_PATH)?.absolutePath
         downloadCount.postValue(downloadCount.value?.plus(1))
         CoroutineScope(Dispatchers.IO).launch {
             PRDownloader.download(url, pdfPath, "$name.pdf")

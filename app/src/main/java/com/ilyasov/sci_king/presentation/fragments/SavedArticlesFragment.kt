@@ -4,23 +4,23 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.presentation.adapters.SciArticleAdapter
-import com.ilyasov.sci_king.presentation.view_models.SavedArticlesViewModel
+import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
+import com.ilyasov.sci_king.presentation.viewmodels.SavedArticlesViewModel
 import com.ilyasov.sci_king.util.Constants
+import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.isVisible
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_saved_articles.*
 
-@AndroidEntryPoint
-class SavedArticlesFragment : Fragment(R.layout.fragment_saved_articles) {
-    private val viewModel by lazy { SavedArticlesViewModel(requireActivity().application) }
+class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
+    private val viewModel: SavedArticlesViewModel by lazy {
+        createViewModel {}
+    }
     private var builder = GsonBuilder().setPrettyPrinting()
     private var gson = builder.create()
     private lateinit var sharedPrefs: SharedPreferences
@@ -28,10 +28,11 @@ class SavedArticlesFragment : Fragment(R.layout.fragment_saved_articles) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPrefs = requireContext().getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
-        sciArticlesAdapter = SciArticleAdapter ({ sci_article ->
+        sharedPrefs =
+            requireContext().getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
+        sciArticlesAdapter = SciArticleAdapter({ sci_article ->
             sharedPrefs.edit().apply {
-                putString("SCI_ARTICLE_TO_READ", gson.toJson(sci_article))
+                putString(SCI_ARTICLE_TO_READ, gson.toJson(sci_article))
                 apply()
             }
             Navigation.findNavController(
