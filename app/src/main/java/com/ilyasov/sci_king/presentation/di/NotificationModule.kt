@@ -1,6 +1,5 @@
 package com.ilyasov.sci_king.presentation.di
 
-/*
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -11,18 +10,14 @@ import com.ilyasov.sci_king.util.Constants.Companion.CHANNEL_ID
 import com.ilyasov.sci_king.util.Constants.Companion.PENDING_CODE
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ServiceComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ServiceScoped
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ServiceComponent::class)
-object NotificationModule {
-    @ServiceScoped
+class NotificationModule {
+    @Singleton
     @Provides
     fun provideNotificationManager(
-        @ApplicationContext context: Context,
+        context: Context,
         pendingIntent: PendingIntent
     ): NotificationCompat.Builder = NotificationCompat.Builder(
         context,
@@ -33,10 +28,10 @@ object NotificationModule {
         .setContentTitle("Book Name")
         .setContentIntent(pendingIntent)
 
-    @ServiceScoped
+    @Singleton
     @Provides
     fun providePendingIntent(
-        @ApplicationContext context: Context,
+        context: Context,
         intent: Intent
     ): PendingIntent =
         PendingIntent.getActivity(
@@ -46,11 +41,11 @@ object NotificationModule {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-    @ServiceScoped
+    @Singleton
     @Provides
     fun provideIntent(
-        @ApplicationContext context: Context
+        context: Context
     ): Intent = Intent(context, RootActivity::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
     }
-}*/
+}

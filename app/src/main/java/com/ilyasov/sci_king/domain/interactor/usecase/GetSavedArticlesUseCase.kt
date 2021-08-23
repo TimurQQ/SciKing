@@ -8,5 +8,5 @@ import javax.inject.Singleton
 class GetSavedArticlesUseCase @Inject constructor(
     private val repo: LocalRepository
 ) {
-    fun execute() = repo.getUserSavedArticles()
+    suspend fun execute() = repo.getUserSavedArticles()
 }

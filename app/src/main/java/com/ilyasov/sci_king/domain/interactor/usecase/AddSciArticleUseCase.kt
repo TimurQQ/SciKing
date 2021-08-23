@@ -9,5 +9,5 @@ import javax.inject.Singleton
 class AddSciArticleUseCase @Inject constructor(
     private val repo: LocalRepository
 ) {
-    fun execute(article: SciArticle) = repo.addSciArticle(article)
+    suspend fun execute(article: SciArticle) = repo.addSciArticle(article)
 }

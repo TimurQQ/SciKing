@@ -1,11 +1,12 @@
 package com.ilyasov.sci_king.presentation.viewmodels
 
-import android.annotation.SuppressLint
-import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.domain.interactor.usecase.GetSavedArticlesUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SavedArticlesViewModel @Inject constructor(
@@ -14,23 +15,9 @@ class SavedArticlesViewModel @Inject constructor(
     val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    @SuppressLint("StaticFieldLeak")
-    private inner class GetArticlesAsyncTask() :
-        AsyncTask<Void?, Void?, Void?>() {
-
-        override fun onPostExecute(result: Void?) {
-            super.onPostExecute(result)
-            loadingMutableLiveData.postValue(false)
-        }
-
-        override fun doInBackground(vararg params: Void?): Void? {
-            sciArticlesListLiveData.postValue(getSavedArticlesUseCase.execute())
-            return null
-        }
-    }
-
-    fun getSavedArticles() {
+    fun getSavedArticles() = viewModelScope.launch(Dispatchers.Main) {
         loadingMutableLiveData.postValue(true)
-        GetArticlesAsyncTask().execute()
+        sciArticlesListLiveData.postValue(getSavedArticlesUseCase.execute())
+        loadingMutableLiveData.postValue(false)
     }
 }

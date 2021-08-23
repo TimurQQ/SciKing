@@ -3,10 +3,16 @@ package com.ilyasov.sci_king.presentation.viewmodels
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
+import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_REQUIRED_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.EMPTY_PASSWORD_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.INVALID_EMAIL_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
+import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_LENGTH_ERR_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_IN_ERROR
 import javax.inject.Inject
 
@@ -17,32 +23,39 @@ class SignInViewModel @Inject constructor() : ViewModel() {
     val navigationStateLiveData: MutableLiveData</*navHostFragment id*/ Int> = MutableLiveData()
 
     fun userLogin(email: String, password: String) {
-        if (email.isEmpty()) {
-            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, "Email is required"))
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, "Please enter a valid email"))
-        } else if (password.isEmpty()) {
-            errorStateLiveData.postValue(Pair(PASSWORD_CHECK_ERROR, "Password is required"))
-        } else if (password.length < 6) {
-            errorStateLiveData.postValue(
-                Pair(PASSWORD_CHECK_ERROR, "Minimum length of password should be 6")
-            )
-        } else {
+        if (noErrors(email, password)) {
             loadingMutableLiveData.postValue(true)
             mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    loadingMutableLiveData.postValue(false)
-                    if (task.isSuccessful) {
-                        navigationStateLiveData.postValue(R.id.activity_root__fragment__nav_host)
-                    } else {
-                        errorStateLiveData.postValue(
-                            Pair(
-                                SERVER_SIGN_IN_ERROR,
-                                task.exception!!.message ?: "Unexpected Sign In Error"
-                            )
-                        )
-                    }
-                }
+                .addOnCompleteListener { task -> onCompleteLoginTask(task) }
         }
+    }
+
+    private fun onCompleteLoginTask(task: Task<AuthResult>) {
+        loadingMutableLiveData.postValue(false)
+        if (task.isSuccessful) {
+            navigationStateLiveData.postValue(R.id.navHostFragmentActivityRoot)
+        } else {
+            errorStateLiveData.postValue(
+                Pair(
+                    SERVER_SIGN_IN_ERROR,
+                    task.exception!!.message ?: "Unexpected Sign In Error"
+                )
+            )
+        }
+    }
+
+    private fun noErrors(email: String, password: String): Boolean {
+        if (email.isEmpty()) {
+            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, EMAIL_REQUIRED_MSG))
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            errorStateLiveData.postValue(Pair(EMAIL_CHECK_ERROR, INVALID_EMAIL_MSG))
+        } else if (password.isEmpty()) {
+            errorStateLiveData.postValue(Pair(PASSWORD_CHECK_ERROR, EMPTY_PASSWORD_MSG))
+        } else if (password.length < 6) {
+            errorStateLiveData.postValue(Pair(PASSWORD_CHECK_ERROR, PASSWORD_LENGTH_ERR_MSG))
+        } else {
+            return true
+        }
+        return false
     }
 }

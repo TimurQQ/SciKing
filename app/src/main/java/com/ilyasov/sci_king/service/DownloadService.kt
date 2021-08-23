@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleService
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
+import com.ilyasov.sci_king.SciKingApplication
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel.Companion.file
 import com.ilyasov.sci_king.util.Constants.Companion.MAX_PROGRESS
@@ -34,6 +35,7 @@ class DownloadService : LifecycleService() {
 
     override fun onCreate() {
         super.onCreate()
+        SciKingApplication.appComponent.inject(this)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
@@ -68,24 +70,17 @@ class DownloadService : LifecycleService() {
     }
 
     private fun downloadPdf(url: String?, name: String) {
-        val pdfPath = this.getExternalFilesDir(USER_SAVED_ARTICLES_PATH)?.absolutePath
+        val pdfPath = getExternalFilesDir(USER_SAVED_ARTICLES_PATH)?.absolutePath
         downloadCount.postValue(downloadCount.value?.plus(1))
         CoroutineScope(Dispatchers.IO).launch {
             PRDownloader.download(url, pdfPath, "$name.pdf")
                 .build()
-                .setOnProgressListener { progress -> downloadingItems.postValue(mutableMapOf(name to progress)) }
+                .setOnProgressListener { progress ->
+                    downloadingItems.postValue(mutableMapOf(name to progress))
+                }
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
-                        downloadCount.postValue(downloadCount.value?.minus(1))
-                        downloadingItems.value?.remove(name)
-                        val fileUri = FileProvider.getUriForFile(
-                            this@DownloadService,
-                            PACKAGE_NAME,
-                            File("$pdfPath/$name.pdf")
-                        )
-                        file.postValue(fileUri)
-                        if (downloadingItems.value.isNullOrEmpty())
-                            stopService()
+                        onDownloadComplete(pdfPath, name)
                     }
 
                     override fun onError(error: Error) {
@@ -93,6 +88,19 @@ class DownloadService : LifecycleService() {
                     }
                 })
         }
+    }
+
+    private fun onDownloadComplete(pdfPath: String?, fileName: String) {
+        downloadCount.postValue(downloadCount.value?.minus(1))
+        downloadingItems.value?.remove(fileName)
+        val fileUri = FileProvider.getUriForFile(
+            this@DownloadService,
+            PACKAGE_NAME,
+            File("$pdfPath/$fileName.pdf")
+        )
+        file.postValue(fileUri)
+        if (downloadingItems.value.isNullOrEmpty())
+            stopService()
     }
 
     private fun stopService() {

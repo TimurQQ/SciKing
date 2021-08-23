@@ -2,22 +2,22 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#9C27B0</item>
-        <item name="colorPrimaryDark">#7B1FA2</item>
-        <item name="colorAccent">#7C4DFF</item>
-        <item name="windowBackground">#FFFFFF</item>
-        <item name="textColorPrimary">#000000</item>
-        <item name="lottyColor">#FFFFFF</item>
-        <item name="bottomColor">#FFFFFF</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="windowBackground">@color/white</item>
+        <item name="textColorPrimary">@color/black</item>
+        <item name="lottyColor">@color/white</item>
+        <item name="bottomColor">@color/color_bottom_light</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#9C27B0</item>
-        <item name="colorPrimaryDark">#7B1FA2</item>
-        <item name="colorAccent">#7C4DFF</item>
-        <item name="windowBackground">#7B1FA2</item>
-        <item name="textColorPrimary">#FFFFFF</item>
-        <item name="lottyColor">#FFFFFF</item>
-        <item name="bottomColor">#7B1FA2</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="windowBackground">@color/color_primary_dark</item>
+        <item name="textColorPrimary">@color/white</item>
+        <item name="lottyColor">@color/white</item>
+        <item name="bottomColor">@color/color_bottom_dark</item>
     </style>
 </resources>

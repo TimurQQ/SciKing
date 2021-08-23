@@ -6,77 +6,74 @@
     <data>
         <variable
             name="settingsFragment"
-            type="com.ilyasov.sci_king.presentation.fragments.FragmentSettings" />
+            type="com.ilyasov.sci_king.presentation.fragments.SettingsFragment" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/windowBackground"
-        tools:context=".presentation.fragments.FragmentSettings">
+        tools:context=".presentation.fragments.SettingsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/conteinerSetting"
+            android:id="@+id/containerSetting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp">
+            android:layout_alignParentTop="true">
 
             <ImageButton
-                android:id="@+id/jump"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="16dp"
+                android:layout_alignParentEnd="false"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_9dp"
                 android:clickable="true"
+                android:contentDescription="@string/back_button_desc"
                 android:focusable="true"
                 android:onClick="@{() -> settingsFragment.onClickBack()}"
                 android:src="?attr/actionModeCloseDrawable"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.073"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayoutSwitches"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="351dp"
-                android:layout_height="75dp"
+                android:id="@+id/constraintLayoutSwitches"
+                android:layout_width="@dimen/size_351dp"
+                android:layout_height="@dimen/size_75dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="68dp"
-                android:background="@color/white"
+                android:layout_marginTop="@dimen/margin_68dp"
+                android:background="@drawable/rounded_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tvChangeTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="24dp"
-                    android:text="Light/Dark"
+                    android:layout_marginStart="@dimen/margin_24dp"
+                    android:text="@string/change_theme_text"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="@dimen/size_24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.627" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/on_off"
+                    android:id="@+id/switchThemeLightDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="@dimen/margin_16dp"
                     android:checked="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

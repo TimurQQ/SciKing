@@ -12,11 +12,15 @@ import java.io.File
 import javax.inject.Inject
 
 class ParseArticleViewModel @Inject constructor() : ViewModel() {
+    companion object {
+        const val TAG = "Read Book View Model"
+        val file = MutableLiveData<Uri>()
+    }
+
     fun getBookData(url: String, name: String, context: Context) {
         val pdfPath = context.getExternalFilesDir(USER_SAVED_ARTICLES_PATH)?.absolutePath
         val filePath = File("$pdfPath/$name.pdf")
         if (!filePath.exists()) {
-            // If file not exist than start download service
             Intent(context, DownloadService::class.java).apply {
                 putExtra("url", url)
                 putExtra("file_name", name)
@@ -25,13 +29,5 @@ class ParseArticleViewModel @Inject constructor() : ViewModel() {
         } else {
             file.postValue(filePath.toUri())
         }
-    }
-
-    companion object {
-        const val TAG = "Read Book View Model"
-
-        // This is temporary solution.
-        // I declare like this because i wanna reach this variable inside download service.
-        val file = MutableLiveData<Uri>()
     }
 }

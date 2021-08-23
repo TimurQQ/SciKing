@@ -2,7 +2,7 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_refresh"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,11 +15,11 @@
         tools:context=".presentation.fragments.NewsFragment">
 
         <com.ilyasov.sci_king.custom.CustomEditTextView
-            android:id="@+id/search_by_title"
+            android:id="@+id/edtSearchByKeyword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@color/white"
+            android:layout_margin="@dimen/margin_20dp"
+            android:background="@drawable/rounded_edit_text"
             app:editHint="search by keyword"
             app:img="@drawable/ic_search_24"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,19 +29,18 @@
         </com.ilyasov.sci_king.custom.CustomEditTextView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sci_articles"
+            android:id="@+id/rvFoundSciArticles"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/match_constraint"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:paddingBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_by_title" />
+            app:layout_constraintTop_toBottomOf="@+id/edtSearchByKeyword" />
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progressBar"
             style="?attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_by_title" />
+            app:layout_constraintTop_toBottomOf="@+id/edtSearchByKeyword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

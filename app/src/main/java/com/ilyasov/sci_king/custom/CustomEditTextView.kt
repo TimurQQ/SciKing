@@ -18,23 +18,23 @@ class CustomEditTextView @JvmOverloads constructor(
     private var hint: String = ""
         set(value) {
             field = value
-            findViewById<EditText>(R.id.custom_edit_text_view).hint = value
+            findViewById<EditText>(R.id.edtCustomView).hint = value
         }
 
     private var errorAction = {}
 
     var text: String = ""
-        get() = findViewById<EditText>(R.id.custom_edit_text_view).text.toString()
+        get() = findViewById<EditText>(R.id.edtCustomView).text.toString()
         set(value) {
             field = value
-            findViewById<EditText>(R.id.custom_edit_text_view).text =
+            findViewById<EditText>(R.id.edtCustomView).text =
                 Editable.Factory.getInstance().newEditable(value)
         }
 
     private var searchImg: Int = 0
         set(value) {
             field = value
-            findViewById<AppCompatImageView>(R.id.search_by_title_img).setImageResource(value)
+            findViewById<AppCompatImageView>(R.id.imgCustomView).setImageResource(value)
         }
 
     fun setActionOnClick(v: () -> Unit) = v.invoke()

@@ -7,26 +7,40 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.firebase.auth.FirebaseAuth
+import com.ilyasov.sci_king.BR
 import com.ilyasov.sci_king.R
+import com.ilyasov.sci_king.databinding.FragmentUserProfileBinding
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.UserProfileViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_NOT_VERIFIED_TEXT
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_VERIFIED_TEXT
+import com.ilyasov.sci_king.util.Constants.Companion.IMAGE_CHOOSER_TITLE_TEXT
+import com.ilyasov.sci_king.util.Constants.Companion.VERIFICATION_SEND_MSG
 import com.ilyasov.sci_king.util.isVisible
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 import java.io.IOException
 
 class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
     private val viewModel: UserProfileViewModel by lazy { createViewModel {} }
-    private var uriProfileImage: Uri? = null
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private lateinit var fragmentUserProfileBinding: FragmentUserProfileBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        fragmentUserProfileBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false)
+        fragmentUserProfileBinding.setVariable(BR.userProfileFragment, this)
+        return fragmentUserProfileBinding.root
+    }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
@@ -36,73 +50,50 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadUserInformation()
-        imageView.setOnClickListener { showImageChooser() }
-        buttonSave.setOnClickListener { viewModel.saveUserInformation(editTextDisplayName.text.toString()) }
-        buttonLogout.setOnClickListener {
-            mAuth.signOut()
-            findNavController().popBackStack(R.id.user_profile_nav_graph, true)
+        viewModel.errorStateLiveData.observe(viewLifecycleOwner) { error_message ->
+            editTextDisplayName.apply { error = error_message; requestFocus() }
         }
-
-        viewModel.errorStateLiveData.observe(viewLifecycleOwner, { error_message ->
-            editTextDisplayName.apply {
-                error = error_message
-                requestFocus()
-            }
-        })
-
-        viewModel.callbackLiveData.observe(viewLifecycleOwner, { callback_message ->
-            Toast.makeText(
-                context, callback_message, Toast.LENGTH_SHORT
-            ).show()
-        })
-
-        viewModel.loadingMutableLiveData.observe(viewLifecycleOwner, { visibility ->
+        viewModel.callbackLiveData.observe(viewLifecycleOwner) { callback_message ->
+            Toast.makeText(context, callback_message, Toast.LENGTH_SHORT).show()
+        }
+        viewModel.loadingMutableLiveData.observe(viewLifecycleOwner) { visibility ->
             progressBar.isVisible(visibility)
-        })
-
-        viewModel.changeUserDisplayNameLiveData.observe(viewLifecycleOwner, { user_display_name ->
+        }
+        viewModel.changeUserDisplayNameLiveData.observe(viewLifecycleOwner) { user_display_name ->
             editTextDisplayName.setText(user_display_name)
-        })
-
-        viewModel.emailVerificationLiveData.observe(viewLifecycleOwner, { isEmailVerified ->
+        }
+        viewModel.emailVerificationLiveData.observe(viewLifecycleOwner) { isEmailVerified ->
             if (isEmailVerified) {
                 textViewVerified.text = EMAIL_VERIFIED_TEXT
             } else {
                 textViewVerified.text = EMAIL_NOT_VERIFIED_TEXT
-                textViewVerified.setOnClickListener {
-                    mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener {
-                        Toast.makeText(
-                            context, "Verification Email Sent", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                textViewVerified.setOnClickListener { onClickEmailVerification() }
             }
-        })
-
-        viewModel.imageLoadingLiveData.observe(viewLifecycleOwner, { request_options ->
+        }
+        viewModel.imageLoadingLiveData.observe(viewLifecycleOwner) { request_options_and_photo_url ->
             Glide.with(this)
                 .asBitmap()
-                .load(mAuth.currentUser!!.photoUrl.toString())
-                .apply(request_options)
+                .load(request_options_and_photo_url.second)
+                .apply(request_options_and_photo_url.first)
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onLoadCleared(placeholder: Drawable?) {}
                     override fun onResourceReady(
                         resource: Bitmap, transition: Transition<in Bitmap>?
-                    ) = imageView.setImageBitmap(resource)
+                    ) = imgProfile.setImageBitmap(resource)
                 })
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
-            uriProfileImage = data.data
+            val uriProfileImage: Uri = data.data!!
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(
                     requireActivity().contentResolver,
                     uriProfileImage
                 )
-                imageView.setImageBitmap(bitmap)
+                imgProfile.setImageBitmap(bitmap)
                 viewModel.uploadImageToFirebaseStorage(uriProfileImage)
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -110,11 +101,26 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
         }
     }
 
+    private fun onClickEmailVerification() {
+        viewModel.sendEmailVerification {
+            Toast.makeText(context, VERIFICATION_SEND_MSG, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun onClickSave() = viewModel.saveUserInformation(editTextDisplayName.text.toString())
+
+    fun onClickLogOut() {
+        viewModel.logOut()
+        findNavController().popBackStack(R.id.user_profile_nav_graph, true)
+    }
+
+    fun onClickProfileImage() = showImageChooser()
+
     private fun showImageChooser() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE)
+        startActivityForResult(Intent.createChooser(intent, IMAGE_CHOOSER_TITLE_TEXT), CHOOSE_IMAGE)
     }
 
     companion object {

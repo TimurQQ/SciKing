@@ -10,35 +10,40 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.ilyasov.sci_king.R
+import com.ilyasov.sci_king.SciKingApplication
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import com.ilyasov.sci_king.util.isVisible
 import com.ilyasov.sci_king.util.makeInvisible
 import kotlinx.android.synthetic.main.sci_article_item.view.*
+import javax.inject.Inject
 
 class SciArticleAdapter(
-    private val onClick: (article: SciArticle) -> Unit,
-    private val customBoolean: Boolean
+    private val customBoolean: Boolean = true,
+    private val onClick: (article: SciArticle) -> Unit = {}
 ) :
     RecyclerView.Adapter<SciArticleAdapter.ArticleViewHolder>() {
+    @Inject
+    lateinit var gson: Gson
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val storageRef = FirebaseStorage.getInstance().reference
     val itemStateArray = SparseBooleanArray()
     val userSavedArticles: MutableLiveData<Pair<SciArticle, () -> Unit>> = MutableLiveData()
     val onClickDownloadLiveData: MutableLiveData<String> = MutableLiveData()
-    private val storage = FirebaseStorage.getInstance()
-    private val storageRef = storage.reference
-    private var builder = GsonBuilder().setPrettyPrinting()
-    private var gson = builder.create()
+
+    init {
+        SciKingApplication.appComponent.inject(this)
+    }
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val downloadButton: AppCompatImageButton by lazy {
-            itemView.findViewById(R.id.imageView)
+            itemView.findViewById(R.id.btnLocalSave)
         }
         val cloudDownloadButton: AppCompatImageButton by lazy {
-            itemView.findViewById(R.id.imageCloudView)
+            itemView.findViewById(R.id.btnCloudSave)
         }
 
         fun bind(position: Int) {
@@ -64,24 +69,19 @@ class SciArticleAdapter(
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val sciArticle = listOfItems[position]
         holder.itemView.apply {
-            tv_title.text = sciArticle.title
-            tv_description.text = sciArticle.summary
-            setOnClickListener {
-                onClick.invoke(sciArticle)
-            }
+            tvArticleTitle.text = sciArticle.title
+            tvArticleDescription.text = sciArticle.summary
+            setOnClickListener { onClick.invoke(sciArticle) }
         }
         holder.downloadButton.setOnClickListener {
-            userSavedArticles.postValue(Pair(sciArticle, {
-                holder.downloadButton.makeInvisible()
-            }))
+            userSavedArticles.postValue(Pair(sciArticle) { holder.downloadButton.makeInvisible() })
         }
         if (mAuth.currentUser == null) {
             holder.cloudDownloadButton.makeInvisible()
         }
         holder.cloudDownloadButton.setOnClickListener {
-            val json: String = gson.toJson(sciArticle)
             val textRef = storageRef.child("/${mAuth.currentUser!!.uid}/${sciArticle.id}.txt")
-            val data = json.toByteArray()
+            val data = gson.toJson(sciArticle).toByteArray()
             val uploadTask: UploadTask = textRef.putBytes(data)
             uploadTask.addOnFailureListener {
                 onClickDownloadLiveData.postValue(FAILURE_MSG)
@@ -93,15 +93,11 @@ class SciArticleAdapter(
     }
 
     override fun onBindViewHolder(
-        viewHolder: ArticleViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
+        viewHolder: ArticleViewHolder, position: Int, payloads: MutableList<Any>
     ) {
         if (payloads.isEmpty()) {
-            // Perform a full update
             onBindViewHolder(viewHolder, position)
         } else {
-            // Perform a partial update
             for (payload in payloads) {
                 if (payload is Boolean) {
                     viewHolder.downloadButton.isVisible(payload)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/custom_edit_text_view"
+        android:id="@+id/edtCustomView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_40dp"
         android:backgroundTint="@android:color/transparent"
@@ -14,15 +14,15 @@
         android:maxLength="24"
         android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/search_by_title_img"
+        app:layout_constraintLeft_toLeftOf="@id/imgCustomView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/search_by_title_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imgCustomView"
+        android:layout_width="@dimen/size_40dp"
+        android:layout_height="@dimen/size_40dp"
         android:layout_marginStart="@dimen/margin_15dp"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="@id/custom_edit_text_view"
+        app:layout_constraintStart_toStartOf="@id/edtCustomView"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

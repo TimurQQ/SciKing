@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     //Size
+    <dimen name="size_38dp">38dp</dimen>
     <dimen name="size_40dp">40dp</dimen>
+    <dimen name="size_75dp">75dp</dimen>
+    <dimen name="size_160dp">160dp</dimen>
+    <dimen name="size_170dp">170dp</dimen>
+    <dimen name="size_351dp">351dp</dimen>
+
+    //TextSize
+    <dimen name="size_12sp">12sp</dimen>
+    <dimen name="size_15sp">15sp</dimen>
+    <dimen name="size_24sp">24sp</dimen>
 
     //Margin
+    <dimen name="match_constraint">0dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_7dp">7dp</dimen>
+    <dimen name="margin_9dp">9dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_25dp">25dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_68dp">68dp</dimen>
 
-
-
+    //Padding
+    <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="padding_15dp">15dp</dimen>
+    <dimen name="padding_50dp">50dp</dimen>
+    <dimen name="padding_66dp">66dp</dimen>
 </resources>

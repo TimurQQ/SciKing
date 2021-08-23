@@ -7,12 +7,15 @@ import javax.inject.Inject
 class LocalRepositoryImpl @Inject constructor(
     private val userSciArticlesDAO: UserSciArticlesDAO
 ) : LocalRepository {
-    override fun addSciArticle(article: SciArticle) = userSciArticlesDAO.addSciArticle(article)
+    override suspend fun addSciArticle(article: SciArticle) =
+        userSciArticlesDAO.addSciArticle(article)
 
-    override fun removeSciArticle(article: SciArticle) =
+    override suspend fun removeSciArticle(article: SciArticle) =
         userSciArticlesDAO.removeSciArticle(article)
 
-    override fun exists(id: String): Boolean = userSciArticlesDAO.exists(id)
+    override suspend fun checkArticleExistence(id: String): Boolean =
+        userSciArticlesDAO.checkArticleExistence(id)
 
-    override fun getUserSavedArticles(): List<SciArticle> = userSciArticlesDAO.userSavedArticles
+    override suspend fun getUserSavedArticles(): List<SciArticle> =
+        userSciArticlesDAO.getUserSavedArticles()
 }

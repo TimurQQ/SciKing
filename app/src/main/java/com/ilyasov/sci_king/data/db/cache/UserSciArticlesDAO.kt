@@ -6,14 +6,14 @@ import com.ilyasov.sci_king.domain.entity.SciArticle
 @Dao
 interface UserSciArticlesDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addSciArticle(article: SciArticle)
+    suspend fun addSciArticle(article: SciArticle)
 
     @Delete
-    fun removeSciArticle(article: SciArticle)
+    suspend fun removeSciArticle(article: SciArticle)
 
     @Query("SELECT EXISTS (SELECT 1 FROM SciArticle WHERE id = :id)")
-    fun exists(id: String): Boolean
+    suspend fun checkArticleExistence(id: String): Boolean
 
-    @get:Query("select * from SciArticle")
-    val userSavedArticles: List<SciArticle>
+    @Query("select * from SciArticle")
+    suspend fun getUserSavedArticles(): List<SciArticle>
 }

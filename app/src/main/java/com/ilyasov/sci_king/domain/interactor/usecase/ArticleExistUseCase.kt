@@ -8,5 +8,5 @@ import javax.inject.Singleton
 class ArticleExistUseCase @Inject constructor(
     private val repo: LocalRepository
 ) {
-    fun execute(id: String) = repo.exists(id)
+    suspend fun execute(id: String) = repo.checkArticleExistence(id)
 }

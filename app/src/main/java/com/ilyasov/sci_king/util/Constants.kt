@@ -2,8 +2,6 @@ package com.ilyasov.sci_king.util
 
 class Constants {
     companion object {
-        //const val IS_REGISTERED = "__REG__"
-        //const val DISPLAY_NAME_ERROR = "__DISPLAY_NAME_ERROR__"
         const val BASE_URL = "http://export.arxiv.org/api/"
         const val BASE_KEYWORD = "electron"
         const val LOG_RESPONSE = "RESP"
@@ -28,7 +26,11 @@ class Constants {
         const val PENDING_CODE = 1071
         const val UNCHECKED_CAST = "UNCHECKED_CAST"
         const val UNKNOWN_MODEL_CLASS = "unknown model class"
-
-
+        const val EMAIL_REQUIRED_MSG = "Email is required"
+        const val INVALID_EMAIL_MSG = "Please enter a valid email"
+        const val EMPTY_PASSWORD_MSG = "Password is required"
+        const val PASSWORD_LENGTH_ERR_MSG = "Minimum length of password should be 6"
+        const val VERIFICATION_SEND_MSG = "Verification Email Sent"
+        const val IMAGE_CHOOSER_TITLE_TEXT = "Select Profile Image"
     }
 }
