@@ -5,16 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import com.ilyasov.sci_king.domain.interactor.usecase.firebase.GetCurrentUserUseCase
+import com.ilyasov.sci_king.domain.interactor.usecase.firebase.LogOutUseCase
+import com.ilyasov.sci_king.util.Constants.Companion.DISPLAY_NAME_REQUIRED_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.PROFILE_UPDATED_MSG
 import javax.inject.Inject
 
-class UserProfileViewModel @Inject constructor() : ViewModel() {
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val currentUser: FirebaseUser by lazy { mAuth.currentUser!! }
+class UserProfileViewModel @Inject constructor(
+    private val logOutUseCase: LogOutUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+) : ViewModel() {
     private var profileImageUrl: String? = null
+    private val currentUser: FirebaseUser by lazy { getCurrentUserUseCase.execute()!! }
+
     val errorStateLiveData: MutableLiveData<String> = MutableLiveData()
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
@@ -26,7 +32,7 @@ class UserProfileViewModel @Inject constructor() : ViewModel() {
         if (currentUser.photoUrl != null) {
             profileImageUrl = currentUser.photoUrl.toString()
             val requestOptions = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE) // because file name is always same
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
             imageLoadingLiveData.postValue(Pair(requestOptions, profileImageUrl!!))
         }
@@ -42,7 +48,7 @@ class UserProfileViewModel @Inject constructor() : ViewModel() {
 
     fun saveUserInformation(displayName: String) {
         if (displayName.isEmpty()) {
-            errorStateLiveData.postValue("Name required")
+            errorStateLiveData.postValue(DISPLAY_NAME_REQUIRED_MSG)
             return
         }
         if (profileImageUrl != null) {
@@ -53,7 +59,7 @@ class UserProfileViewModel @Inject constructor() : ViewModel() {
             currentUser.updateProfile(profile)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        callbackLiveData.postValue("Profile Updated")
+                        callbackLiveData.postValue(PROFILE_UPDATED_MSG)
                     }
                 }
         }
@@ -82,5 +88,5 @@ class UserProfileViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun logOut() = mAuth.signOut()
+    fun logOut() = logOutUseCase.execute()
 }

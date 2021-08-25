@@ -1,4 +1,4 @@
-package com.ilyasov.sci_king.domain.interactor.usecase
+package com.ilyasov.sci_king.domain.interactor.usecase.user_articles
 
 import com.ilyasov.sci_king.data.db.repository.LocalRepository
 import javax.inject.Inject

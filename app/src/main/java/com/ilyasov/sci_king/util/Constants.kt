@@ -32,5 +32,7 @@ class Constants {
         const val PASSWORD_LENGTH_ERR_MSG = "Minimum length of password should be 6"
         const val VERIFICATION_SEND_MSG = "Verification Email Sent"
         const val IMAGE_CHOOSER_TITLE_TEXT = "Select Profile Image"
+        const val PROFILE_UPDATED_MSG = "Profile Updated"
+        const val DISPLAY_NAME_REQUIRED_MSG = "Name required"
     }
 }

@@ -7,8 +7,8 @@ import com.ilyasov.sci_king.data.db.cache.SciArticlesDatabase
 import com.ilyasov.sci_king.data.db.cache.UserSciArticlesDAO
 import com.ilyasov.sci_king.data.db.repository.LocalRepository
 import com.ilyasov.sci_king.data.db.repository.LocalRepositoryImpl
-import com.ilyasov.sci_king.util.Constants
 import com.ilyasov.sci_king.util.Constants.Companion.APP_PREFERENCES
+import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLES_DB_NAME
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,8 +18,11 @@ class LocalModule {
 
     @Singleton
     @Provides
-    fun providesLocalRepository(dao: UserSciArticlesDAO): LocalRepository =
-        LocalRepositoryImpl(dao)
+    fun providesLocalRepository(
+        dao: UserSciArticlesDAO,
+        sharePrefs: SharedPreferences,
+    ): LocalRepository =
+        LocalRepositoryImpl(dao, sharePrefs)
 
     @Singleton
     @Provides
@@ -27,7 +30,7 @@ class LocalModule {
         Room.databaseBuilder(
             context,
             SciArticlesDatabase::class.java,
-            Constants.SCI_ARTICLES_DB_NAME
+            SCI_ARTICLES_DB_NAME
         ).build()
 
     @Singleton

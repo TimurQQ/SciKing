@@ -24,9 +24,12 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sciArticlesAdapter = SciArticleAdapter(true) { sci_article ->
-            onClickArticle(sci_article)
-        }
+        sciArticlesAdapter =
+            SciArticleAdapter(
+                isAnonim = viewModel.getCurrentUser() == null,
+                customBoolean = true) { sci_article ->
+                onClickArticle(sci_article)
+            }
         setupRecyclerView()
         edtSearchByKeyword.setActionOnClick {
             imgCustomView.setOnClickListener { onClickImgButtonSearch() }
@@ -48,18 +51,25 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         viewModel.loadingMutableLiveData.observe(viewLifecycleOwner) { visibility ->
             progressBar.isVisible(visibility)
         }
+        viewModel.callbackLiveData.observe(viewLifecycleOwner) { message ->
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        }
+        viewModel.navigationStateLiveData.observe(viewLifecycleOwner) { navHostFragmentId ->
+            Navigation.findNavController(requireActivity(), navHostFragmentId)
+                .navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
+        }
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.getSciArticlesByKeyWord(keyWord)
             swipeRefreshLayout.isRefreshing = false
         }
-        sciArticlesAdapter.userSavedArticles.observe(viewLifecycleOwner) { sciArticle_andCallback ->
+        sciArticlesAdapter.userSavedArticlesLiveData.observe(viewLifecycleOwner) { sciArticle_andCallback ->
             viewModel.addSciArticleToLocalDB(
                 sciArticle_andCallback.first,
                 sciArticle_andCallback.second
             )
         }
-        sciArticlesAdapter.onClickDownloadLiveData.observe(viewLifecycleOwner) { message ->
-            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        sciArticlesAdapter.onClickCloudDownloadLiveData.observe(viewLifecycleOwner) { sciArticle ->
+            viewModel.uploadToCloud(sciArticle)
         }
     }
 
@@ -81,12 +91,8 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         edtSearchByKeyword.showError()
     }
 
-    private fun onClickArticle(sci_article: SciArticle) {
-        sharedPrefs.edit().apply {
-            putString(SCI_ARTICLE_TO_READ, gson.toJson(sci_article)); apply()
-        }
-        Navigation.findNavController(requireActivity(), R.id.navHostFragmentActivityRoot)
-            .navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
+    private fun onClickArticle(sciArticle: SciArticle) {
+        viewModel.startReadingArticle(sciArticle)
     }
 
     private fun changeVisibilities(count: Int) {

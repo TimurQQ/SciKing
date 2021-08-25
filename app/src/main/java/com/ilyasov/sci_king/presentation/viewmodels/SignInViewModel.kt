@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.ilyasov.sci_king.R
+import com.ilyasov.sci_king.domain.interactor.usecase.firebase.SignInUserUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_REQUIRED_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.EMPTY_PASSWORD_MSG
@@ -16,8 +16,9 @@ import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_LENGTH_ERR_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_IN_ERROR
 import javax.inject.Inject
 
-class SignInViewModel @Inject constructor() : ViewModel() {
-    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+class SignInViewModel @Inject constructor(
+    private val signInUserUseCase: SignInUserUseCase,
+) : ViewModel() {
     val errorStateLiveData: MutableLiveData<Pair<String, String>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val navigationStateLiveData: MutableLiveData</*navHostFragment id*/ Int> = MutableLiveData()
@@ -25,7 +26,7 @@ class SignInViewModel @Inject constructor() : ViewModel() {
     fun userLogin(email: String, password: String) {
         if (noErrors(email, password)) {
             loadingMutableLiveData.postValue(true)
-            mAuth.signInWithEmailAndPassword(email, password)
+            signInUserUseCase.execute(email, password)
                 .addOnCompleteListener { task -> onCompleteLoginTask(task) }
         }
     }

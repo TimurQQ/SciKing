@@ -10,14 +10,15 @@ import com.ilyasov.sci_king.BR
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.databinding.FragmentSettingsBinding
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
-import com.ilyasov.sci_king.util.Constants.Companion.THEME_PREFS
+import com.ilyasov.sci_king.presentation.viewmodels.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private lateinit var fragmentSettingsBinding: FragmentSettingsBinding
+    private val viewModel: SettingsViewModel by lazy { createViewModel {} }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         fragmentSettingsBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
@@ -27,22 +28,19 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        switchThemeLightDark.isChecked =
-            sharedPrefs.getInt(THEME_PREFS, R.style.AppTheme) == R.style.DarkTheme
+        val theme = viewModel.getGlobalTheme()
+        switchThemeLightDark.isChecked = theme == R.style.DarkTheme
         switchThemeLightDark.setOnCheckedChangeListener { _, isChecked ->
             onSwitchCheckChange(isChecked)
         }
     }
 
-    fun onSwitchCheckChange(isChecked: Boolean) {
-        sharedPrefs.edit().apply {
-            val theme = when (isChecked) {
-                true -> R.style.DarkTheme
-                false -> R.style.AppTheme
-            }
-            putInt(THEME_PREFS, theme)
-            apply()
+    private fun onSwitchCheckChange(isChecked: Boolean) {
+        val theme = when (isChecked) {
+            true -> R.style.DarkTheme
+            false -> R.style.AppTheme
         }
+        viewModel.setGlobalTheme(theme)
         requireActivity().recreate()
     }
 

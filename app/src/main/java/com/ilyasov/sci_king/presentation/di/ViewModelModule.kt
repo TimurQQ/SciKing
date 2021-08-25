@@ -45,4 +45,8 @@ abstract class ViewModelModule {
     @ViewModelKey(UserProfileViewModel::class)
     abstract fun binUserProfileViewModel(viewModel: UserProfileViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 }
