@@ -54,10 +54,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         viewModel.callbackLiveData.observe(viewLifecycleOwner) { message ->
             Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
-        viewModel.navigationStateLiveData.observe(viewLifecycleOwner) { navHostFragmentId ->
-            Navigation.findNavController(requireActivity(), navHostFragmentId)
-                .navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
-        }
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.getSciArticlesByKeyWord(keyWord)
             swipeRefreshLayout.isRefreshing = false
@@ -92,7 +88,11 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     }
 
     private fun onClickArticle(sciArticle: SciArticle) {
-        viewModel.startReadingArticle(sciArticle)
+        sharedPrefs.edit().apply {
+            putString(SCI_ARTICLE_TO_READ, gson.toJson(sciArticle)); apply()
+        }
+        Navigation.findNavController(requireActivity(), R.id.navHostFragmentActivityRoot)
+            .navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
     }
 
     private fun changeVisibilities(count: Int) {

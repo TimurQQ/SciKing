@@ -27,13 +27,11 @@ class SciArticlesViewModel @Inject constructor(
     private val getSciArticlesUseCase: GetSciArticlesUseCase,
     private val uploadToCloudUseCase: UploadToCloudUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val putDataToSharedPrefsUseCase: PutDataToSharedPrefsUseCase,
 ) : ViewModel() {
     val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
     val errorStateLiveData: MutableLiveData<String> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
-    val navigationStateLiveData: MutableLiveData</*navHostFragment id*/ Int> = MutableLiveData()
 
     fun isArticleSaved(article: SciArticle, onCompleteCallback: (Boolean) -> Unit) =
         viewModelScope.launch(Dispatchers.Main) {
@@ -48,11 +46,6 @@ class SciArticlesViewModel @Inject constructor(
             Log.d("TASK", "Completed")
             onCompleteCallback.invoke()
         }
-
-    fun startReadingArticle(sciArticle: SciArticle) {
-        putDataToSharedPrefsUseCase.json(SCI_ARTICLE_TO_READ, sciArticle)
-        navigationStateLiveData.postValue(R.id.navHostFragmentActivityRoot)
-    }
 
     fun uploadToCloud(article: SciArticle) {
         uploadToCloudUseCase.execute(article).addOnFailureListener {

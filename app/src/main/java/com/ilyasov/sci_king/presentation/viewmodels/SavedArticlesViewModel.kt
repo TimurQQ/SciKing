@@ -21,22 +21,15 @@ class SavedArticlesViewModel @Inject constructor(
     private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
     private val uploadToCloudUseCase: UploadToCloudUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
-    private val putDataToSharedPrefsUseCase: PutDataToSharedPrefsUseCase,
 ) : ViewModel() {
     val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
-    val navigationStateLiveData: MutableLiveData</*navHostFragment id*/ Int> = MutableLiveData()
 
     fun getSavedArticles() = viewModelScope.launch(Dispatchers.Main) {
         loadingMutableLiveData.postValue(true)
         sciArticlesListLiveData.postValue(getSavedArticlesUseCase.execute())
         loadingMutableLiveData.postValue(false)
-    }
-
-    fun startReadingArticle(sciArticle: SciArticle) {
-        putDataToSharedPrefsUseCase.json(SCI_ARTICLE_TO_READ, sciArticle)
-        navigationStateLiveData.postValue(R.id.navHostFragmentActivityRoot)
     }
 
     fun getCurrentUser(): FirebaseUser? = getCurrentUserUseCase.execute()

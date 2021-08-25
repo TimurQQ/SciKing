@@ -10,6 +10,7 @@ import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.presentation.adapters.SciArticleAdapter
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.SavedArticlesViewModel
+import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.isVisible
 import kotlinx.android.synthetic.main.fragment_saved_articles.*
 
@@ -36,12 +37,6 @@ class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
         viewModel.callbackLiveData.observe(viewLifecycleOwner) { message ->
             Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
-        viewModel.navigationStateLiveData.observe(viewLifecycleOwner) { navHostFragmentId ->
-            Navigation.findNavController(
-                requireActivity(),
-                navHostFragmentId
-            ).navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
-        }
         sciArticlesAdapter.onClickCloudDownloadLiveData.observe(viewLifecycleOwner) { sciArticle ->
             viewModel.uploadToCloud(sciArticle)
         }
@@ -53,7 +48,11 @@ class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
     }
 
     private fun onClickArticle(sciArticle: SciArticle) {
-        viewModel.startReadingArticle(sciArticle)
+        sharedPrefs.edit().apply {
+            putString(SCI_ARTICLE_TO_READ, gson.toJson(sciArticle)); apply()
+        }
+        Navigation.findNavController(requireActivity(), R.id.navHostFragmentActivityRoot)
+            .navigate(R.id.action__MainFragment__to__ReadArticle_Flow)
     }
 
     private fun setupRecyclerView() {
