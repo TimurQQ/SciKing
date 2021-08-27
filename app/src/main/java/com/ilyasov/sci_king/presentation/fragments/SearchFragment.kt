@@ -25,7 +25,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sciArticlesAdapter =
-            SciArticleAdapter(isAnonim = viewModel.getCurrentUser() == null,
+            SciArticleAdapter(isAnonymous = viewModel.getCurrentUser() == null,
                 customBoolean = false) { sci_article ->
                 onClickArticle(sci_article)
             }

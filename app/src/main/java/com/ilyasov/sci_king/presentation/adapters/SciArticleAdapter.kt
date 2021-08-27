@@ -5,24 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.res.ResourcesCompat.getDrawable
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.util.isVisible
-import com.ilyasov.sci_king.util.makeInvisible
 import com.ilyasov.sci_king.util.setBookMarkSource
 import kotlinx.android.synthetic.main.sci_article_item.view.*
 
 class SciArticleAdapter(
-    private val isAnonim: Boolean = true,
+    private val isAnonymous: Boolean = true,
     private val customBoolean: Boolean = true,
     private val onClick: (article: SciArticle) -> Unit = {},
 ) :
     RecyclerView.Adapter<SciArticleAdapter.ArticleViewHolder>() {
     val itemStateArray = SparseBooleanArray()
-    val userSavedArticlesLiveData: MutableLiveData<Pair<Pair<SciArticle, Int>, (Boolean) -> Unit>> = MutableLiveData()
+    val userSavedArticlesLiveData: MutableLiveData<Pair<Pair<SciArticle, Int>, (Boolean) -> Unit>> =
+        MutableLiveData()
     val onClickCloudDownloadLiveData: MutableLiveData<SciArticle> = MutableLiveData()
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -66,7 +65,7 @@ class SciArticleAdapter(
                 })
             }
             cloudDownloadButton.apply {
-                isVisible(!isAnonim)
+                isVisible(!isAnonymous)
                 setOnClickListener { onClickCloudDownloadLiveData.postValue(sciArticle) }
             }
             bind(position)

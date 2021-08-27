@@ -61,6 +61,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         Navigation.findNavController(
             requireActivity(),
             R.id.navHostFragmentActivityRoot
-        ).navigate(R.id.action__MainFragment__to__ChengeTheme_Flow)
+        ).navigate(R.id.action__MainFragment__to__ChangeTheme_Flow)
     }
 }

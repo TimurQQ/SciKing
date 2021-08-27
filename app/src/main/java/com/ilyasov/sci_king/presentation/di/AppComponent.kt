@@ -1,7 +1,6 @@
 package com.ilyasov.sci_king.presentation.di
 
 import com.ilyasov.sci_king.data.db.cache.Converters
-import com.ilyasov.sci_king.presentation.adapters.SciArticleAdapter
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.service.DownloadService
 import dagger.Component

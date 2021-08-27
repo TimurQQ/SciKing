@@ -8,7 +8,6 @@ import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel.Companion.file
 import com.ilyasov.sci_king.util.*
-import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import kotlinx.android.synthetic.main.fragment_book_read.*
 
 //import org.allenai.scienceparse.Parser

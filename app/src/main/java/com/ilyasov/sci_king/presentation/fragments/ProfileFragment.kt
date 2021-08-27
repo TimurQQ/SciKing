@@ -15,7 +15,7 @@ import com.ilyasov.sci_king.presentation.viewmodels.ProfileViewModel
 
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val viewModel: ProfileViewModel by lazy { createViewModel {} }
-    lateinit var fragmentProfileBinding: FragmentProfileBinding
+    private lateinit var fragmentProfileBinding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,

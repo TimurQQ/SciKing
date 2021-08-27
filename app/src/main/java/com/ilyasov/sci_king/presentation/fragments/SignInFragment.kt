@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -26,7 +25,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
     private lateinit var fragmentSignInBinding: FragmentSignInBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         fragmentSignInBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)

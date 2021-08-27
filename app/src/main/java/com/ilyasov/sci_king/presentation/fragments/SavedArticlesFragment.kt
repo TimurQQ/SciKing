@@ -25,7 +25,7 @@ class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sciArticlesAdapter =
-            SciArticleAdapter(isAnonim = viewModel.getCurrentUser() == null,
+            SciArticleAdapter(isAnonymous = viewModel.getCurrentUser() == null,
                 customBoolean = true) { sci_article ->
                 onClickArticle(sci_article)
             }

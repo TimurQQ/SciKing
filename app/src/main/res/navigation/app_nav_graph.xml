@@ -32,7 +32,7 @@
             app:destination="@+id/read_articles_nav_graph" />
 
         <action
-            android:id="@+id/action__MainFragment__to__ChengeTheme_Flow"
+            android:id="@+id/action__MainFragment__to__ChangeTheme_Flow"
             app:destination="@+id/change_theme_nav_graph" />
 
     </fragment>

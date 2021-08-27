@@ -3,8 +3,6 @@ package com.ilyasov.sci_king.data.db.repository
 import android.content.SharedPreferences
 import com.ilyasov.sci_king.data.db.cache.UserSciArticlesDAO
 import com.ilyasov.sci_king.domain.entity.SciArticle
-import com.ilyasov.sci_king.util.Constants
-import com.ilyasov.sci_king.util.Constants.Companion.THEME_PREFS
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
