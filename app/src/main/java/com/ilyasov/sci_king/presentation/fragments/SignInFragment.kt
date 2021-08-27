@@ -11,12 +11,14 @@ import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.BR
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.databinding.FragmentSignInBinding
+import com.ilyasov.sci_king.domain.entity.CustomError
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.SignInViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_IN_ERROR
 import com.ilyasov.sci_king.util.isVisible
+import com.ilyasov.sci_king.util.showToast
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
@@ -48,18 +50,17 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         })
     }
 
-    private fun handleLoginError(error_type_and_error_text: Pair<String, String>) {
-        when (error_type_and_error_text.first) {
+    private fun handleLoginError(_error: CustomError) {
+        when (_error.type) {
             EMAIL_CHECK_ERROR -> edtEmail
             PASSWORD_CHECK_ERROR -> edtPassword
             else -> null
         }?.apply {
-            error = error_type_and_error_text.second
+            error = _error.message
             requestFocus()
         }
-        when (error_type_and_error_text.first) {
-            SERVER_SIGN_IN_ERROR ->
-                Toast.makeText(context, error_type_and_error_text.second, Toast.LENGTH_SHORT).show()
+        when (_error.type) {
+            SERVER_SIGN_IN_ERROR -> showToast(_error.message)
         }
     }
 

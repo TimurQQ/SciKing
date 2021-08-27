@@ -25,26 +25,30 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sciArticlesAdapter =
-            SciArticleAdapter(
-                isAnonim = viewModel.getCurrentUser() == null,
-                customBoolean = true) { sci_article ->
+            SciArticleAdapter(isAnonim = viewModel.getCurrentUser() == null,
+                customBoolean = false) { sci_article ->
                 onClickArticle(sci_article)
             }
         setupRecyclerView()
+        setupObserver()
         edtSearchByKeyword.setActionOnClick {
             imgCustomView.setOnClickListener { onClickImgButtonSearch() }
         }
-        viewModel.sciArticlesListLiveData.observe(viewLifecycleOwner) { response ->
-            sciArticlesAdapter.listOfItems = response
-            val len = sciArticlesAdapter.itemCount
-            for (i in 0 until len) {
-                viewModel.isArticleSaved(response[i]) { isSaved ->
-                    sciArticlesAdapter.itemStateArray.append(i, isSaved)
-                }
-            }
-            sciArticlesAdapter.notifyDataSetChanged()
-            changeVisibilities(len)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSciArticlesByKeyWord(keyWord)
+    }
+
+    private fun setupRecyclerView() {
+        rvFoundSciArticles.apply {
+            adapter = sciArticlesAdapter
+            layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    private fun setupObserver() {
         viewModel.errorStateLiveData.observe(viewLifecycleOwner) { error ->
             Log.e("TAG", "An error: $error")
         }
@@ -58,26 +62,55 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             viewModel.getSciArticlesByKeyWord(keyWord)
             swipeRefreshLayout.isRefreshing = false
         }
-        sciArticlesAdapter.userSavedArticlesLiveData.observe(viewLifecycleOwner) { sciArticle_andCallback ->
-            viewModel.addSciArticleToLocalDB(
-                sciArticle_andCallback.first,
-                sciArticle_andCallback.second
-            )
-        }
+        setupBookMarkCallback()
         sciArticlesAdapter.onClickCloudDownloadLiveData.observe(viewLifecycleOwner) { sciArticle ->
             viewModel.uploadToCloud(sciArticle)
         }
+        viewModel.sciArticlesListLiveData.observe(viewLifecycleOwner) { response ->
+            sciArticlesAdapter.listOfItems = response
+            fillItemStateArray(response)
+            sciArticlesAdapter.notifyDataSetChanged()
+            changeVisibilities(sciArticlesAdapter.itemCount)
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getSciArticlesByKeyWord(keyWord)
+    private fun fillItemStateArray(items: List<SciArticle>) {
+        for (i in 0 until sciArticlesAdapter.itemCount) {
+            viewModel.isArticleSaved(items[i]) { isSaved ->
+                sciArticlesAdapter.itemStateArray.append(i, isSaved)
+            }
+        }
     }
 
-    private fun setupRecyclerView() {
-        rvFoundSciArticles.apply {
-            adapter = sciArticlesAdapter
-            layoutManager = LinearLayoutManager(activity)
+    private fun setupBookMarkCallback() {
+        sciArticlesAdapter.userSavedArticlesLiveData.observe(viewLifecycleOwner) { sciArticlePair_andCallback ->
+            viewModel.isArticleSaved(sciArticlePair_andCallback.first.first) { isSaved ->
+                val func: SearchFragment.(SciArticle, Int, (Boolean) -> Unit) -> Unit =
+                    if (isSaved) SearchFragment::removeSciArticle else SearchFragment::addSciArticle
+                func(sciArticlePair_andCallback.first.first,
+                    sciArticlePair_andCallback.first.second,
+                    sciArticlePair_andCallback.second)
+            }
+        }
+    }
+
+    private fun removeSciArticle(
+        sciArticle: SciArticle, position: Int, callback: (Boolean) -> Unit,
+    ) {
+        viewModel.removeSciArticleFromLocalDB(sciArticle, callback) {
+            sciArticlesAdapter.itemStateArray.append(position, false)
+            sciArticlesAdapter.notifyDataSetChanged()
+            changeVisibilities(sciArticlesAdapter.itemCount)
+        }
+    }
+
+    private fun addSciArticle(
+        sciArticle: SciArticle, position: Int, callback: (Boolean) -> Unit,
+    ) {
+        viewModel.addSciArticleToLocalDB(sciArticle, callback) {
+            sciArticlesAdapter.itemStateArray.append(position, true)
+            sciArticlesAdapter.notifyDataSetChanged()
+            changeVisibilities(sciArticlesAdapter.itemCount)
         }
     }
 
@@ -103,7 +136,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     private fun changeVisibility(itemIndex: Int) {
         viewModel.isArticleSaved(sciArticlesAdapter.listOfItems[itemIndex]) { isSaved ->
-            sciArticlesAdapter.notifyItemRangeChanged(itemIndex, 1, !isSaved)
+            sciArticlesAdapter.notifyItemRangeChanged(itemIndex, 1, isSaved)
         }
     }
 }

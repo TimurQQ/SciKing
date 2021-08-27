@@ -22,4 +22,6 @@
     <string name="nickname_edit_text_hint">Enter Display Name</string>
     <string name="email_verified_text">Verified</string>
     <string name="registration_text">Registration</string>
+    <string name="movie_deleted">"Successfully deleted"</string>
+    <string name="undo">Undo</string>
 </resources>

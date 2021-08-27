@@ -48,7 +48,7 @@ class SciKingApplication : Application() {
             .localModule(LocalModule())
             .remoteModule(RemoteModule())
             .notificationModule(NotificationModule())
-//          .fireBaseModule(FireBaseModule())
+            .firebaseModule(FirebaseModule())
             .build()
     }
 

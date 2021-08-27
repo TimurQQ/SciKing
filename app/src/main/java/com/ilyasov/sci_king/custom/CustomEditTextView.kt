@@ -10,9 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.ilyasov.sci_king.R
 
 class CustomEditTextView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyle: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyle) {
 
     private var hint: String = ""

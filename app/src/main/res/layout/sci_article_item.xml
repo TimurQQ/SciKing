@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_160dp"
         android:scaleType="center"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@drawable/ic_sci_king_logo_transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +64,7 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/image_button_desc"
             android:src="@drawable/ic_cloud_download"
+            android:tint="?attr/textColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tvArticleDescription"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvArticleTitle" />
@@ -75,7 +76,8 @@
             android:layout_marginEnd="@dimen/margin_20dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/image_button_desc"
-            android:src="@drawable/ic_download"
+            android:src="@drawable/ic_bookmark_border"
+            android:tint="?attr/textColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tvArticleDescription"
             app:layout_constraintEnd_toEndOf="@id/tvArticleTitle"
             app:layout_constraintTop_toTopOf="@id/tvArticleTitle" />

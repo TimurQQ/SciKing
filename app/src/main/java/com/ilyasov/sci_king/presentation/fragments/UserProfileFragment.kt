@@ -26,6 +26,7 @@ import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_VERIFIED_TEXT
 import com.ilyasov.sci_king.util.Constants.Companion.IMAGE_CHOOSER_TITLE_TEXT
 import com.ilyasov.sci_king.util.Constants.Companion.VERIFICATION_SEND_MSG
 import com.ilyasov.sci_king.util.isVisible
+import com.ilyasov.sci_king.util.showToast
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 import java.io.IOException
 
@@ -34,7 +35,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
     private lateinit var fragmentUserProfileBinding: FragmentUserProfileBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         fragmentUserProfileBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false)
@@ -78,7 +79,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onLoadCleared(placeholder: Drawable?) {}
                     override fun onResourceReady(
-                        resource: Bitmap, transition: Transition<in Bitmap>?
+                        resource: Bitmap, transition: Transition<in Bitmap>?,
                     ) = imgProfile.setImageBitmap(resource)
                 })
         }
@@ -90,8 +91,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
             val uriProfileImage: Uri = data.data!!
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(
-                    requireActivity().contentResolver,
-                    uriProfileImage
+                    requireActivity().contentResolver, uriProfileImage
                 )
                 imgProfile.setImageBitmap(bitmap)
                 viewModel.uploadImageToFirebaseStorage(uriProfileImage)
@@ -102,9 +102,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
     }
 
     private fun onClickEmailVerification() {
-        viewModel.sendEmailVerification {
-            Toast.makeText(context, VERIFICATION_SEND_MSG, Toast.LENGTH_SHORT).show()
-        }
+        viewModel.sendEmailVerification { showToast(VERIFICATION_SEND_MSG) }
     }
 
     fun onClickSave() = viewModel.saveUserInformation(editTextDisplayName.text.toString())

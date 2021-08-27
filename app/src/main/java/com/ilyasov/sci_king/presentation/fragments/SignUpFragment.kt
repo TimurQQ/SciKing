@@ -4,19 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilyasov.sci_king.BR
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.databinding.FragmentSignUpBinding
+import com.ilyasov.sci_king.domain.entity.CustomError
 import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.SignUpViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.PASSWORD_CHECK_ERROR
 import com.ilyasov.sci_king.util.Constants.Companion.SERVER_SIGN_UP_ERROR
 import com.ilyasov.sci_king.util.isVisible
+import com.ilyasov.sci_king.util.showToast
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
@@ -24,7 +25,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
     private lateinit var fragmentSignUpBinding: FragmentSignUpBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         fragmentSignUpBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
@@ -48,18 +49,17 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         })
     }
 
-    private fun handleSignUpError(error_type_and_error_text: Pair<String, String>) {
-        when (error_type_and_error_text.first) {
+    private fun handleSignUpError(_error: CustomError) {
+        when (_error.type) {
             EMAIL_CHECK_ERROR -> edtEmail
             PASSWORD_CHECK_ERROR -> edtPassword
             else -> null
         }?.apply {
-            error = error_type_and_error_text.second
+            error = _error.message
             requestFocus()
         }
-        when (error_type_and_error_text.first) {
-            SERVER_SIGN_UP_ERROR ->
-                Toast.makeText(context, error_type_and_error_text.second, Toast.LENGTH_SHORT).show()
+        when (_error.type) {
+            SERVER_SIGN_UP_ERROR -> showToast(_error.message)
         }
     }
 

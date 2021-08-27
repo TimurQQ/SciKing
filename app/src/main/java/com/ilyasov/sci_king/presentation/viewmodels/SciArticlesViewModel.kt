@@ -5,17 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.GetCurrentUserUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.UploadToCloudUseCase
-import com.ilyasov.sci_king.domain.interactor.usecase.shared_prefs.PutDataToSharedPrefsUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.AddSciArticleUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.ArticleExistUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.GetSciArticlesUseCase
+import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.RemoveSciArticleUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.LOG_RESPONSE
-import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,12 +21,13 @@ import javax.inject.Inject
 
 class SciArticlesViewModel @Inject constructor(
     private val addSciArticleUseCase: AddSciArticleUseCase,
+    private val removeSciArticleUseCase: RemoveSciArticleUseCase,
     private val articleExistUseCase: ArticleExistUseCase,
     private val getSciArticlesUseCase: GetSciArticlesUseCase,
     private val uploadToCloudUseCase: UploadToCloudUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
-    val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
+    val sciArticlesListLiveData: MutableLiveData<MutableList<SciArticle>> = MutableLiveData()
     val errorStateLiveData: MutableLiveData<String> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
@@ -40,11 +39,24 @@ class SciArticlesViewModel @Inject constructor(
             onCompleteCallback.invoke(result)
         }
 
-    fun addSciArticleToLocalDB(article: SciArticle, onCompleteCallback: () -> Unit) =
+    fun addSciArticleToLocalDB(
+        article: SciArticle, onCompleteCallback: (Boolean) -> Unit, adapterCallback :() -> Unit,
+    ) =
         viewModelScope.launch(Dispatchers.Main) {
             addSciArticleUseCase.execute(article)
             Log.d("TASK", "Completed")
-            onCompleteCallback.invoke()
+            onCompleteCallback.invoke(true)
+            adapterCallback.invoke()
+        }
+
+    fun removeSciArticleFromLocalDB(
+        article: SciArticle, onCompleteCallback: (Boolean) -> Unit, adapterCallback :() -> Unit,
+    ) =
+        viewModelScope.launch(Dispatchers.Main) {
+            removeSciArticleUseCase.execute(article)
+            Log.d("TASK", "Completed")
+            onCompleteCallback.invoke(false)
+            adapterCallback.invoke()
         }
 
     fun uploadToCloud(article: SciArticle) {

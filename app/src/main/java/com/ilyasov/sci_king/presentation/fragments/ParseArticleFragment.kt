@@ -1,6 +1,5 @@
 package com.ilyasov.sci_king.presentation.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.ilyasov.sci_king.R
@@ -9,7 +8,6 @@ import com.ilyasov.sci_king.presentation.fragments.base.BaseFragment
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel.Companion.file
 import com.ilyasov.sci_king.util.*
-import com.ilyasov.sci_king.util.Constants.Companion.APP_PREFERENCES
 import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import kotlinx.android.synthetic.main.fragment_book_read.*
 
@@ -18,16 +16,12 @@ import kotlinx.android.synthetic.main.fragment_book_read.*
 
 class ParseArticleFragment : BaseFragment(R.layout.fragment_book_read) {
     //val parser: Parser = Parser.getInstance()
-    private val readBookViewModel: ParseArticleViewModel by lazy { createViewModel {} }
-    private lateinit var restoredObjectDataString: String
+    private val viewModel: ParseArticleViewModel by lazy { createViewModel {} }
     private lateinit var restoredObject: SciArticle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedPrefs =
-            requireContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        restoredObjectDataString = sharedPrefs.getString(SCI_ARTICLE_TO_READ, "null").toString()
-        restoredObject = gson.fromJson(restoredObjectDataString, SciArticle::class.java)
+        restoredObject = viewModel.getCurrentBook()
     }
 
     private fun setupObserver() {
@@ -64,11 +58,7 @@ class ParseArticleFragment : BaseFragment(R.layout.fragment_book_read) {
             val newLink = "http://export.${
                 restoredObject.links[restoredObject.links.size - 1].toString().split("//")[1]
             }"
-            readBookViewModel.getBookData(
-                newLink,
-                restoredObject.id,
-                requireContext()
-            )
+            viewModel.getBookData(newLink, restoredObject.id, requireContext())
         }
     }
 }

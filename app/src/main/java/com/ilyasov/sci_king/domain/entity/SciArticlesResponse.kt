@@ -13,5 +13,5 @@ data class SciArticlesResponse(
     @PropertyElement(name = "opensearch:totalResults") val totalResults: String,
     @PropertyElement(name = "opensearch:startIndex") val startIndex: String,
     @PropertyElement(name = "opensearch:itemsPerPage") val itemPerPage: String,
-    @Element(name = "entry") val articles: List<SciArticle>
+    @Element(name = "entry") val articles: MutableList<SciArticle>
 )

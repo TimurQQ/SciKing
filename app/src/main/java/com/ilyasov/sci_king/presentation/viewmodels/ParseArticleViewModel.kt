@@ -6,17 +6,29 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ilyasov.sci_king.domain.entity.SciArticle
+import com.ilyasov.sci_king.domain.interactor.usecase.shared_prefs.GetFromSharedPrefsUseCase
 import com.ilyasov.sci_king.service.DownloadService
+import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.Constants.Companion.USER_SAVED_ARTICLES_PATH
 import java.io.File
 import javax.inject.Inject
 
-class ParseArticleViewModel @Inject constructor() : ViewModel() {
+class ParseArticleViewModel @Inject constructor(
+    private val getFromSharedPrefsUseCase: GetFromSharedPrefsUseCase,
+) : ViewModel() {
+    companion object {
+        const val TAG = "Read Book View Model"
+        val file = MutableLiveData<Uri>()
+    }
+
+    fun getCurrentBook(): SciArticle =
+        getFromSharedPrefsUseCase.sciArticle(SCI_ARTICLE_TO_READ, "null")
+
     fun getBookData(url: String, name: String, context: Context) {
         val pdfPath = context.getExternalFilesDir(USER_SAVED_ARTICLES_PATH)?.absolutePath
         val filePath = File("$pdfPath/$name.pdf")
         if (!filePath.exists()) {
-            // If file not exist than start download service
             Intent(context, DownloadService::class.java).apply {
                 putExtra("url", url)
                 putExtra("file_name", name)
@@ -25,13 +37,5 @@ class ParseArticleViewModel @Inject constructor() : ViewModel() {
         } else {
             file.postValue(filePath.toUri())
         }
-    }
-
-    companion object {
-        const val TAG = "Read Book View Model"
-
-        // This is temporary solution.
-        // I declare like this because i wanna reach this variable inside download service.
-        val file = MutableLiveData<Uri>()
     }
 }

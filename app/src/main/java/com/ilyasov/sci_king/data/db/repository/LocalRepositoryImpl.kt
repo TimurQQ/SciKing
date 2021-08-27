@@ -20,8 +20,8 @@ class LocalRepositoryImpl @Inject constructor(
     override suspend fun checkArticleExistence(id: String): Boolean =
         userSciArticlesDAO.checkArticleExistence(id)
 
-    override suspend fun getUserSavedArticles(): List<SciArticle> =
-        userSciArticlesDAO.getUserSavedArticles()
+    override suspend fun getUserSavedArticles(): MutableList<SciArticle> =
+        userSciArticlesDAO.getUserSavedArticles().toMutableList()
 
     override fun getStringFromSharedPrefs(key: String, defValue: String): String =
         sharedPrefs.getString(key, defValue).toString()
@@ -36,9 +36,9 @@ class LocalRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun putIntToSharedPrefs(key: String, theme: Int) {
+    override fun putIntToSharedPrefs(key: String, value: Int) {
         sharedPrefs.edit().apply {
-            putInt(key, theme)
+            putInt(key, value)
             apply()
         }
     }

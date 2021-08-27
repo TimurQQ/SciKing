@@ -36,10 +36,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun onSwitchCheckChange(isChecked: Boolean) {
-        val theme = when (isChecked) {
-            true -> R.style.DarkTheme
-            false -> R.style.AppTheme
-        }
+        val theme = if (isChecked) R.style.DarkTheme else R.style.AppTheme
         viewModel.setGlobalTheme(theme)
         requireActivity().recreate()
     }

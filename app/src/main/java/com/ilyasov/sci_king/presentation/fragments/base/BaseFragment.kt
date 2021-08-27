@@ -10,7 +10,6 @@ import com.ilyasov.sci_king.SciKingApplication
 import javax.inject.Inject
 
 open class BaseFragment(layoutId: Int) : Fragment(layoutId) {
-
     @Inject
     lateinit var viewModelProvider: ViewModelProvider.Factory
 

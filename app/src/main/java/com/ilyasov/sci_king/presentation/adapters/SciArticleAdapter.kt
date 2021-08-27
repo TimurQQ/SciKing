@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.res.ResourcesCompat.getDrawable
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.util.isVisible
 import com.ilyasov.sci_king.util.makeInvisible
+import com.ilyasov.sci_king.util.setBookMarkSource
 import kotlinx.android.synthetic.main.sci_article_item.view.*
 
 class SciArticleAdapter(
@@ -20,7 +22,7 @@ class SciArticleAdapter(
 ) :
     RecyclerView.Adapter<SciArticleAdapter.ArticleViewHolder>() {
     val itemStateArray = SparseBooleanArray()
-    val userSavedArticlesLiveData: MutableLiveData<Pair<SciArticle, () -> Unit>> = MutableLiveData()
+    val userSavedArticlesLiveData: MutableLiveData<Pair<Pair<SciArticle, Int>, (Boolean) -> Unit>> = MutableLiveData()
     val onClickCloudDownloadLiveData: MutableLiveData<SciArticle> = MutableLiveData()
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,21 +35,20 @@ class SciArticleAdapter(
 
         fun bind(position: Int) {
             if (itemStateArray[position, false]) {
-                downloadButton.makeInvisible()
+                downloadButton.setImageResource(R.drawable.ic_bookmark)
             } else {
-                downloadButton.isVisible(customBoolean)
+                downloadButton.setBookMarkSource(customBoolean)
             }
         }
     }
 
-    var listOfItems: List<SciArticle> = emptyList()
+    var listOfItems: MutableList<SciArticle> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        val itemView = LayoutInflater.from(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ArticleViewHolder(
+        LayoutInflater.from(
             parent.context
         ).inflate(R.layout.sci_article_item, parent, false)
-        return ArticleViewHolder(itemView)
-    }
+    )
 
     override fun getItemCount() = listOfItems.size
 
@@ -60,15 +61,13 @@ class SciArticleAdapter(
                 setOnClickListener { onClick.invoke(sciArticle) }
             }
             downloadButton.setOnClickListener {
-                userSavedArticlesLiveData.postValue(Pair(sciArticle) {
-                    holder.downloadButton.makeInvisible()
+                userSavedArticlesLiveData.postValue(Pair(Pair(sciArticle, position)) { isSaved ->
+                    holder.downloadButton.setBookMarkSource(isSaved)
                 })
             }
             cloudDownloadButton.apply {
                 isVisible(!isAnonim)
-                setOnClickListener {
-                    onClickCloudDownloadLiveData.postValue(sciArticle)
-                }
+                setOnClickListener { onClickCloudDownloadLiveData.postValue(sciArticle) }
             }
             bind(position)
         }
@@ -82,7 +81,7 @@ class SciArticleAdapter(
         } else {
             for (payload in payloads) {
                 if (payload is Boolean) {
-                    viewHolder.downloadButton.isVisible(payload)
+                    viewHolder.downloadButton.setBookMarkSource(payload)
                 }
             }
         }

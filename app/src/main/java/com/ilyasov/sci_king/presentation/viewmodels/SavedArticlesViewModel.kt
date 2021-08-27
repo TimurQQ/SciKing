@@ -1,28 +1,29 @@
 package com.ilyasov.sci_king.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.domain.entity.SciArticle
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.GetCurrentUserUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.UploadToCloudUseCase
-import com.ilyasov.sci_king.domain.interactor.usecase.shared_prefs.PutDataToSharedPrefsUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.GetSavedArticlesUseCase
+import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.RemoveSciArticleUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
-import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SavedArticlesViewModel @Inject constructor(
+    private val removeSciArticleUseCase: RemoveSciArticleUseCase,
     private val getSavedArticlesUseCase: GetSavedArticlesUseCase,
     private val uploadToCloudUseCase: UploadToCloudUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
-    val sciArticlesListLiveData: MutableLiveData<List<SciArticle>> = MutableLiveData()
+    val sciArticlesListLiveData: MutableLiveData<MutableList<SciArticle>> = MutableLiveData()
     val loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
 
@@ -31,6 +32,18 @@ class SavedArticlesViewModel @Inject constructor(
         sciArticlesListLiveData.postValue(getSavedArticlesUseCase.execute())
         loadingMutableLiveData.postValue(false)
     }
+
+    fun removeSciArticleFromLocalDB(
+        article: SciArticle,
+        timeDelay: Long,
+        adapterCallback: () -> Unit,
+    ) =
+        viewModelScope.launch(Dispatchers.Main) {
+            delay(timeDelay)
+            removeSciArticleUseCase.execute(article)
+            Log.d("TASK", "Completed")
+            adapterCallback.invoke()
+        }
 
     fun getCurrentUser(): FirebaseUser? = getCurrentUserUseCase.execute()
 
