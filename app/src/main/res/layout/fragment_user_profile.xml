@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userProfileFragment"
+            type="com.ilyasov.sci_king.presentation.fragments.UserProfileFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/windowBackground"
+        android:orientation="vertical"
+        tools:context="com.ilyasov.sci_king.presentation.RootActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_profile_picture_text"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="?attr/textColorPrimary" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="@dimen/size_170dp"
+                android:layout_height="@dimen/size_170dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/margin_20dp"
+                android:background="@drawable/icon_camera"
+                android:onClick="@{() -> userProfileFragment.onClickProfileImage()}"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/editTextDisplayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nickname_edit_text_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="?attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/textViewVerified"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/email_verified_text"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="?attr/textColorPrimary" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:background="@drawable/rounded_edit_text"
+            android:onClick="@{() -> userProfileFragment.onClickSave()}"
+            android:text="@string/save_button_text"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_25dp"
+            android:background="@drawable/rounded_edit_text"
+            android:onClick="@{() -> userProfileFragment.onClickLogOut()}"
+            android:text="@string/logout_button_text"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</layout>

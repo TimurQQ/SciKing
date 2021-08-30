@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_saved_articles"
+    app:startDestination="@id/SavedArticlesFragment">
+
+    <fragment
+        android:id="@+id/SavedArticlesFragment"
+        android:name="com.ilyasov.sci_king.presentation.fragments.SavedArticlesFragment"
+        tools:layout="@layout/fragment_saved_articles" />
+
+</navigation>

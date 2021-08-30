@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_20dp"
+    android:background="?attr/windowBackground"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgArticle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_160dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_sci_king_logo_transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/cv_CardView"
+        app:layout_constraintTop_toBottomOf="@id/imgArticle">
+
+        <TextView
+            android:id="@+id/tvArticleTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_66dp"
+            android:paddingTop="@dimen/padding_5dp"
+            android:paddingEnd="@dimen/padding_66dp"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/size_15sp"
+            app:layout_constraintTop_toTopOf="@id/constraint_layout" />
+
+        <TextView
+            android:id="@+id/tvArticleDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="15"
+            android:paddingStart="@dimen/padding_50dp"
+            android:paddingEnd="@dimen/padding_50dp"
+            android:paddingBottom="@dimen/padding_5dp"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/size_12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvArticleTitle" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnCloudSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/image_button_desc"
+            android:src="@drawable/ic_cloud_download"
+            android:tint="?attr/textColorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvArticleDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvArticleTitle" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnLocalSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_20dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/image_button_desc"
+            android:src="@drawable/ic_bookmark_border"
+            android:tint="?attr/textColorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tvArticleDescription"
+            app:layout_constraintEnd_toEndOf="@id/tvArticleTitle"
+            app:layout_constraintTop_toTopOf="@id/tvArticleTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

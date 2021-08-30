@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_profile"
+    app:startDestination="@id/ProfileFragment">
+
+    <fragment
+        android:id="@+id/ProfileFragment"
+        android:name="com.ilyasov.sci_king.presentation.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_ProfileFragment_to_AuthFlow"
+            app:destination="@+id/auth_nav_graph" />
+
+        <action
+            android:id="@+id/action_ProfileFragment_to_UserProfileFragment"
+            app:destination="@+id/user_profile_nav_graph" />
+
+    </fragment>
+
+    <include app:graph="@navigation/auth_nav_graph" />
+    <include app:graph="@navigation/user_profile_nav_graph" />
+
+</navigation>
