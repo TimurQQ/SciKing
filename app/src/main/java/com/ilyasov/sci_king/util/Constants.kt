@@ -37,5 +37,17 @@ class Constants {
         const val IMAGE_CHOOSER_TITLE_TEXT = "Select Profile Image"
         const val PROFILE_UPDATED_MSG = "Profile Updated"
         const val DISPLAY_NAME_REQUIRED_MSG = "Name required"
+        const val DOWNLOADING_CONTENT_TITLE = "Article Title"
+        const val PERCENT_SIGN = " %"
+        const val NULL_STRING = "null"
+        const val DOWNLOAD_URL_INFO = "url"
+        const val FILENAME_INFO = "file_name"
+        const val INVISIBLE_ALPHA = 0f
+        const val START_LOADING = true
+        const val STOP_LOADING = false
+        const val RESPONSE_FAILED =
+            "Error, the request was not processed correctly. Response unsuccessful"
+        const val PROFILE_PICS_DIR = "profile_pics"
+        const val LOAD_IMG_INTENT_TYPE = "image/*"
     }
 }

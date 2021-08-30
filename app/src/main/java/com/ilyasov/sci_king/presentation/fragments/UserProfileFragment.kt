@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -24,6 +23,7 @@ import com.ilyasov.sci_king.presentation.viewmodels.UserProfileViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_NOT_VERIFIED_TEXT
 import com.ilyasov.sci_king.util.Constants.Companion.EMAIL_VERIFIED_TEXT
 import com.ilyasov.sci_king.util.Constants.Companion.IMAGE_CHOOSER_TITLE_TEXT
+import com.ilyasov.sci_king.util.Constants.Companion.LOAD_IMG_INTENT_TYPE
 import com.ilyasov.sci_king.util.Constants.Companion.VERIFICATION_SEND_MSG
 import com.ilyasov.sci_king.util.isVisible
 import com.ilyasov.sci_king.util.showToast
@@ -55,7 +55,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
             editTextDisplayName.apply { error = error_message; requestFocus() }
         }
         viewModel.callbackLiveData.observe(viewLifecycleOwner) { callback_message ->
-            Toast.makeText(context, callback_message, Toast.LENGTH_SHORT).show()
+            showToast(callback_message)
         }
         viewModel.loadingMutableLiveData.observe(viewLifecycleOwner) { visibility ->
             progressBar.isVisible(visibility)
@@ -116,7 +116,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile) {
 
     private fun showImageChooser() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = LOAD_IMG_INTENT_TYPE
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, IMAGE_CHOOSER_TITLE_TEXT), CHOOSE_IMAGE)
     }

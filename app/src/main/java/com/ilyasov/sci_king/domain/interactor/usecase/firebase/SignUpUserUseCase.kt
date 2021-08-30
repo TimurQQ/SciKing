@@ -5,7 +5,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SignUpUserUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
+class SignUpUserUseCase @Inject constructor(
+    private val firebaseRepository: FirebaseRepository,
+) {
     fun execute(email: String, password: String) =
         firebaseRepository.signUpUser(email, password)
 }

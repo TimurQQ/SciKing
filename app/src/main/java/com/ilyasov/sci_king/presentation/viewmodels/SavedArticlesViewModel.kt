@@ -11,6 +11,8 @@ import com.ilyasov.sci_king.domain.interactor.usecase.firebase.UploadToCloudUseC
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.GetSavedArticlesUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.RemoveSciArticleUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.START_LOADING
+import com.ilyasov.sci_king.util.Constants.Companion.STOP_LOADING
 import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,9 +30,9 @@ class SavedArticlesViewModel @Inject constructor(
     val callbackLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun getSavedArticles() = viewModelScope.launch(Dispatchers.Main) {
-        loadingMutableLiveData.postValue(true)
+        loadingMutableLiveData.postValue(START_LOADING)
         sciArticlesListLiveData.postValue(getSavedArticlesUseCase.execute())
-        loadingMutableLiveData.postValue(false)
+        loadingMutableLiveData.postValue(STOP_LOADING)
     }
 
     fun removeSciArticleFromLocalDB(
@@ -41,7 +43,6 @@ class SavedArticlesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             delay(timeDelay)
             removeSciArticleUseCase.execute(article)
-            Log.d("TASK", "Completed")
             adapterCallback.invoke()
         }
 

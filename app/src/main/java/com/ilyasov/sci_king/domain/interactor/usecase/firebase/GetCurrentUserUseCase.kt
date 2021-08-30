@@ -5,6 +5,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetCurrentUserUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
+class GetCurrentUserUseCase @Inject constructor(
+    private val firebaseRepository: FirebaseRepository,
+) {
     fun execute() = firebaseRepository.getCurrentUser()
 }

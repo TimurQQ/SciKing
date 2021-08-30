@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="userProfileFragment"
             type="com.ilyasov.sci_king.presentation.fragments.UserProfileFragment" />
@@ -52,17 +53,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nickname_edit_text_hint"
-            android:textColor="?attr/textColorPrimary"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="?attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/textViewVerified"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/email_verified_text"
-            android:textColor="?attr/textColorPrimary"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="?attr/textColorPrimary" />
 
         <Button
             android:id="@+id/buttonSave"

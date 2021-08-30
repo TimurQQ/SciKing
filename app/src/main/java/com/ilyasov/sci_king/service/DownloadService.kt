@@ -13,6 +13,9 @@ import com.downloader.PRDownloader
 import com.ilyasov.sci_king.SciKingApplication
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel
 import com.ilyasov.sci_king.presentation.viewmodels.ParseArticleViewModel.Companion.file
+import com.ilyasov.sci_king.util.Constants
+import com.ilyasov.sci_king.util.Constants.Companion.DOWNLOAD_URL_INFO
+import com.ilyasov.sci_king.util.Constants.Companion.FILENAME_INFO
 import com.ilyasov.sci_king.util.Constants.Companion.MAX_PROGRESS
 import com.ilyasov.sci_king.util.Constants.Companion.NOTIFICATION_ID
 import com.ilyasov.sci_king.util.Constants.Companion.PACKAGE_NAME
@@ -48,8 +51,8 @@ class DownloadService : LifecycleService() {
     }
 
     private fun setupDownload(intent: Intent) {
-        val fileName = intent.getStringExtra("file_name")
-        val url = intent.getStringExtra("url")
+        val fileName = intent.getStringExtra(FILENAME_INFO)
+        val url = intent.getStringExtra(DOWNLOAD_URL_INFO)
         fileName?.let {
             downloadPdf(url, fileName)
         }

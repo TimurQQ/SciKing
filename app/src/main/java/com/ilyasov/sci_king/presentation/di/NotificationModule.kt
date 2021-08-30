@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat
 import com.ilyasov.sci_king.R
 import com.ilyasov.sci_king.presentation.RootActivity
 import com.ilyasov.sci_king.util.Constants.Companion.CHANNEL_ID
+import com.ilyasov.sci_king.util.Constants.Companion.DOWNLOADING_CONTENT_TITLE
 import com.ilyasov.sci_king.util.Constants.Companion.PENDING_CODE
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,7 @@ class NotificationModule {
     ).setSmallIcon(R.drawable.ic_download)
         .setAutoCancel(false)
         .setOngoing(false)
-        .setContentTitle("Book Name")
+        .setContentTitle(DOWNLOADING_CONTENT_TITLE)
         .setContentIntent(pendingIntent)
 
     @Singleton

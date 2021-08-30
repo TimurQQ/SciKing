@@ -14,6 +14,9 @@ import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.GetSciArticl
 import com.ilyasov.sci_king.domain.interactor.usecase.user_articles.RemoveSciArticleUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.FAILURE_MSG
 import com.ilyasov.sci_king.util.Constants.Companion.LOG_RESPONSE
+import com.ilyasov.sci_king.util.Constants.Companion.RESPONSE_FAILED
+import com.ilyasov.sci_king.util.Constants.Companion.START_LOADING
+import com.ilyasov.sci_king.util.Constants.Companion.STOP_LOADING
 import com.ilyasov.sci_king.util.Constants.Companion.SUCCESS_MSG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +38,6 @@ class SciArticlesViewModel @Inject constructor(
     fun isArticleSaved(article: SciArticle, onCompleteCallback: (Boolean) -> Unit) =
         viewModelScope.launch(Dispatchers.Main) {
             val result = articleExistUseCase.execute(article.id)
-            Log.d("TASK", "Completed")
             onCompleteCallback.invoke(result)
         }
 
@@ -44,8 +46,7 @@ class SciArticlesViewModel @Inject constructor(
     ) =
         viewModelScope.launch(Dispatchers.Main) {
             addSciArticleUseCase.execute(article)
-            Log.d("TASK", "Completed")
-            onCompleteCallback.invoke(true)
+            onCompleteCallback.invoke(ARTICLE_ADDED)
             adapterCallback.invoke()
         }
 
@@ -54,8 +55,7 @@ class SciArticlesViewModel @Inject constructor(
     ) =
         viewModelScope.launch(Dispatchers.Main) {
             removeSciArticleUseCase.execute(article)
-            Log.d("TASK", "Completed")
-            onCompleteCallback.invoke(false)
+            onCompleteCallback.invoke(ARTICLE_DELETED)
             adapterCallback.invoke()
         }
 
@@ -70,18 +70,21 @@ class SciArticlesViewModel @Inject constructor(
     fun getCurrentUser(): FirebaseUser? = getCurrentUserUseCase.execute()
 
     fun getSciArticlesByKeyWord(keyWord: String) = viewModelScope.launch(Dispatchers.Main) {
-        loadingMutableLiveData.postValue(true)
+        loadingMutableLiveData.postValue(START_LOADING)
         val response = getSciArticlesUseCase.execute("all:$keyWord")
-        loadingMutableLiveData.postValue(false)
+        loadingMutableLiveData.postValue(STOP_LOADING)
         val body = response.body()
 
-        Log.d(LOG_RESPONSE, body.toString())
-        if (!response.isSuccessful) {
-            errorStateLiveData.postValue("Error")
+        if (!response.isSuccessful || body == null) {
+            errorStateLiveData.postValue(RESPONSE_FAILED)
             return@launch
         } else {
-            Log.d(LOG_RESPONSE, body.toString())
+            sciArticlesListLiveData.postValue(body.articles)
         }
-        sciArticlesListLiveData.postValue(body!!.articles)
+    }
+
+    companion object {
+        const val ARTICLE_ADDED = true
+        const val ARTICLE_DELETED = false
     }
 }

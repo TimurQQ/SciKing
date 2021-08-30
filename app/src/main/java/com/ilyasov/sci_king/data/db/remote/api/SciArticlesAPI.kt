@@ -7,12 +7,20 @@ import retrofit2.http.Query
 
 interface SciArticlesAPI : APIInterface {
 
-    @GET("query")
-   override suspend fun getSciArticlesByKeyWord(
-        @Query("search_query")
+    companion object {
+        const val SET_START_POS = "start"
+        const val GET_ARTICLES = "query"
+        const val SET_SEARCH_KEYWORD = "search_query"
+        const val SET_MAX_RESULTS = "max_results"
+    }
+
+    @GET(GET_ARTICLES)
+    override suspend fun getSciArticlesByKeyWord(
+        @Query(SET_SEARCH_KEYWORD)
         keyword: String,
-        @Query("start")
+        @Query(SET_START_POS)
         startPos: Int,
-        @Query("max_results")
-        maxResults: Int): Response<SciArticlesResponse>
+        @Query(SET_MAX_RESULTS)
+        maxResults: Int,
+    ): Response<SciArticlesResponse>
 }

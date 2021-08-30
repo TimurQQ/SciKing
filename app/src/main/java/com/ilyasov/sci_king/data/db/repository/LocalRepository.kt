@@ -7,6 +7,7 @@ interface LocalRepository {
     suspend fun removeSciArticle(article: SciArticle)
     suspend fun checkArticleExistence(id: String): Boolean
     suspend fun getUserSavedArticles(): MutableList<SciArticle>
+
     fun getStringFromSharedPrefs(key: String, defValue: String): String
     fun getIntFromSharedPrefs(key:String, defValue: Int): Int
     fun putStringToSharedPrefs(key: String, value: String)

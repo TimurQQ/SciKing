@@ -67,7 +67,7 @@ class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 sciArticlesAdapter.listOfItems[viewHolder.adapterPosition].let { article ->
-                    val job = viewModel.removeSciArticleFromLocalDB(article, 2000L) {
+                    val job = viewModel.removeSciArticleFromLocalDB(article, DELETION_TIME_DELAY) {
                         sciArticlesAdapter.listOfItems.removeAt(viewHolder.adapterPosition)
                         sciArticlesAdapter.notifyDataSetChanged()
                     }
@@ -97,5 +97,9 @@ class SavedArticlesFragment : BaseFragment(R.layout.fragment_saved_articles) {
         sciArticlesAdapter.onClickCloudDownloadLiveData.observe(viewLifecycleOwner) { sciArticle ->
             viewModel.uploadToCloud(sciArticle)
         }
+    }
+
+    companion object {
+        const val DELETION_TIME_DELAY = 2000L
     }
 }

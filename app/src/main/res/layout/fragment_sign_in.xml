@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="signInFragment"
             type="com.ilyasov.sci_king.presentation.fragments.SignInFragment" />
@@ -73,7 +74,7 @@
                 android:hint="@string/login_edit_text_hint"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
-                android:textColorHint="#AEABAB"
+                android:textColorHint="@color/color_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/space"
@@ -101,12 +102,12 @@
                 android:id="@+id/tvSignUp"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> signInFragment.onClickSignUp()}"
                 android:padding="@dimen/margin_15dp"
                 android:text="@string/change_login_to_registration_button_text"
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="#AEABAB"
-                android:onClick="@{() -> signInFragment.onClickSignUp()}"
+                android:textColor="@color/color_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtPassword"

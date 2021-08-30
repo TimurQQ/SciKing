@@ -7,4 +7,6 @@
     <color name="color_accent">#7C4DFF</color>
     <color name="color_bottom_light">#AEABAB</color>
     <color name="color_bottom_dark">#550E61</color>
+    <color name="color_hint">#AEABAB</color>
+    <color name="dark_blue">#343F67</color>
 </resources>

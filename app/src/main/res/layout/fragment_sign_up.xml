@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="signUpFragment"
             type="com.ilyasov.sci_king.presentation.fragments.SignUpFragment" />
@@ -76,7 +77,7 @@
                 android:hint="@string/email_edit_text_hint"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
-                android:textColorHint="#AEABAB"
+                android:textColorHint="@color/color_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvRegistration"
@@ -94,7 +95,7 @@
                 android:hint="@string/password_edit_text_hint"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:textColorHint="#AEABAB"
+                android:textColorHint="@color/color_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtEmail"
@@ -105,12 +106,12 @@
                 android:id="@+id/tvLogin"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> signUpFragment.onCLickLogin()}"
                 android:padding="@dimen/padding_15dp"
                 android:text="@string/change_registration_to_login_button_text"
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="#AEABAB"
-                android:onClick="@{() -> signUpFragment.onCLickLogin()}"
+                android:textColor="@color/color_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtPassword"
@@ -124,10 +125,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_7dp"
                 android:background="@drawable/rounded_edit_text"
+                android:onClick="@{() -> signUpFragment.onClickSignUp()}"
                 android:text="@string/sign_up_button_text"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:onClick="@{() -> signUpFragment.onClickSignUp()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvLogin"
@@ -142,7 +143,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

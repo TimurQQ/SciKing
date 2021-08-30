@@ -6,7 +6,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UploadToCloudUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
+class UploadToCloudUseCase @Inject constructor(
+    private val firebaseRepository: FirebaseRepository,
+) {
     fun execute(sciArticle: SciArticle) =
         firebaseRepository.uploadToCloud(sciArticle)
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mainFragment"
             type="com.ilyasov.sci_king.presentation.MainFragment" />
@@ -22,8 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/match_constraint"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnOpenSettings" />
@@ -44,17 +44,16 @@
             android:id="@+id/btnOpenSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="false"
             android:layout_marginTop="@dimen/margin_10dp"
             android:layout_marginEnd="@dimen/margin_16dp"
             android:layout_marginBottom="@dimen/margin_5dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_settings"
+            android:contentDescription="@string/settings_button_desc"
             android:onClick="@{() -> mainFragment.onClickSettings()}"
+            android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toTopOf="@id/navHostFragmentForBottomNavigation"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/constraint"
-            android:contentDescription="@string/settings_button_desc" />
+            app:layout_constraintTop_toTopOf="@id/constraint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

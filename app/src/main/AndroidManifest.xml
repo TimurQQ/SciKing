@@ -11,14 +11,14 @@
     <application
         android:name=".SciKingApplication"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/ic_sci_king_logo_transparent"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_sci_king_logo_transparent"
         android:supportsRtl="true"
         android:theme="@style/DarkTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity
             android:name=".presentation.RootActivity"
             android:label="@string/app_name"

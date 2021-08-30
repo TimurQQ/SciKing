@@ -5,6 +5,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LogOutUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
+class LogOutUseCase @Inject constructor(
+    private val firebaseRepository: FirebaseRepository,
+) {
     fun execute() = firebaseRepository.logOut()
 }

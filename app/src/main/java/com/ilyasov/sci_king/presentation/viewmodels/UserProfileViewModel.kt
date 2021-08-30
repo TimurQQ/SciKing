@@ -11,7 +11,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.GetCurrentUserUseCase
 import com.ilyasov.sci_king.domain.interactor.usecase.firebase.LogOutUseCase
 import com.ilyasov.sci_king.util.Constants.Companion.DISPLAY_NAME_REQUIRED_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.PROFILE_PICS_DIR
 import com.ilyasov.sci_king.util.Constants.Companion.PROFILE_UPDATED_MSG
+import com.ilyasov.sci_king.util.Constants.Companion.START_LOADING
+import com.ilyasov.sci_king.util.Constants.Companion.STOP_LOADING
 import javax.inject.Inject
 
 class UserProfileViewModel @Inject constructor(
@@ -40,9 +43,9 @@ class UserProfileViewModel @Inject constructor(
             changeUserDisplayNameLiveData.postValue(user_display_name)
         }
         if (currentUser.isEmailVerified) {
-            emailVerificationLiveData.postValue(true)
+            emailVerificationLiveData.postValue(EMAIL_VERIFIED)
         } else {
-            emailVerificationLiveData.postValue(false)
+            emailVerificationLiveData.postValue(EMAIL_NOT_VERIFIED)
         }
     }
 
@@ -67,17 +70,17 @@ class UserProfileViewModel @Inject constructor(
 
     fun uploadImageToFirebaseStorage(uriProfileImage: Uri) {
         val profileImageRef = FirebaseStorage.getInstance()
-            .getReference("profile_pics/" + System.currentTimeMillis() + ".jpg")
-        loadingMutableLiveData.postValue(true)
+            .getReference(PROFILE_PICS_DIR + "/" + System.currentTimeMillis() + ".jpg")
+        loadingMutableLiveData.postValue(START_LOADING)
         profileImageRef.putFile(uriProfileImage)
             .addOnSuccessListener { taskSnapshot ->
-                loadingMutableLiveData.postValue(false)
+                loadingMutableLiveData.postValue(STOP_LOADING)
                 taskSnapshot.storage.downloadUrl.addOnSuccessListener { url ->
                     profileImageUrl = url.toString()
                 }
             }
             .addOnFailureListener { e ->
-                loadingMutableLiveData.postValue(false)
+                loadingMutableLiveData.postValue(STOP_LOADING)
                 callbackLiveData.postValue(e.message)
             }
     }
@@ -89,4 +92,9 @@ class UserProfileViewModel @Inject constructor(
     }
 
     fun logOut() = logOutUseCase.execute()
+
+    companion object {
+        const val EMAIL_VERIFIED = true
+        const val EMAIL_NOT_VERIFIED = false
+    }
 }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="profileFragment"
             type="com.ilyasov.sci_king.presentation.fragments.ProfileFragment" />
@@ -30,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_20dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/open_auth_flow_button_text"
             android:onClick="@{() -> profileFragment.onClickAuthFlowButton()}"
+            android:text="@string/open_auth_flow_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFragmentProfileTitle" />

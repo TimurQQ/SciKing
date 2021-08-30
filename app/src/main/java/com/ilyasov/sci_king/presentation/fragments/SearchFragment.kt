@@ -14,6 +14,7 @@ import com.ilyasov.sci_king.presentation.viewmodels.SciArticlesViewModel
 import com.ilyasov.sci_king.util.Constants.Companion.BASE_KEYWORD
 import com.ilyasov.sci_king.util.Constants.Companion.SCI_ARTICLE_TO_READ
 import com.ilyasov.sci_king.util.isVisible
+import com.ilyasov.sci_king.util.showToast
 import kotlinx.android.synthetic.main.custom_edit_text_view.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -50,7 +51,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     private fun setupObserver() {
         viewModel.errorStateLiveData.observe(viewLifecycleOwner) { error ->
-            Log.e("TAG", "An error: $error")
+            showToast("An error: $error")
         }
         viewModel.loadingMutableLiveData.observe(viewLifecycleOwner) { visibility ->
             progressBar.isVisible(visibility)
